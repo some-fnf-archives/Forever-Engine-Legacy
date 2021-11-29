@@ -101,7 +101,7 @@ class PlayState extends MusicBeatState
 	private var paused:Bool = false;
 	var startedCountdown:Bool = false;
 	var inCutscene:Bool = false;
-	
+
 	var canPause:Bool = true;
 
 	var previousFrameTime:Int = 0;
@@ -218,8 +218,8 @@ class PlayState extends MusicBeatState
 
 			It serves to clear clutter and can easily be destroyed later. The problem is,
 			I don't actually know if this is optimised, I just kinda roll with things and hope
-			they work. I'm not actually really experienced compared to a lot of other developers in the scene, 
-			so I don't really know what I'm doing, I'm just hoping I can make a better and more optimised 
+			they work. I'm not actually really experienced compared to a lot of other developers in the scene,
+			so I don't really know what I'm doing, I'm just hoping I can make a better and more optimised
 			engine for both myself and other modders to use!
 		 */
 
@@ -347,30 +347,30 @@ class PlayState extends MusicBeatState
 		// call the funny intro cutscene depending on the song
 		if (!skipCutscenes())
 			songIntroCutscene();
-		else 
+		else
 			startCountdown();
 
 		/**
 		 * SHADERS
-		 * 
+		 *
 		 * This is a highly experimental code by gedehari to support runtime shader parsing.
 		 * Usually, to add a shader, you would make it a class, but now, I modified it so
 		 * you can parse it from a file.
-		 * 
+		 *
 		 * This feature is planned to be used for modcharts
 		 * (at this time of writing, it's not available yet).
-		 * 
+		 *
 		 * This example below shows that you can apply shaders as a FlxCamera filter.
 		 * the GraphicsShader class accepts two arguments, one is for vertex shader, and
 		 * the second is for fragment shader.
 		 * Pass in an empty string to use the default vertex/fragment shader.
-		 * 
+		 *
 		 * Next, the Shader is passed to a new instance of ShaderFilter, neccesary to make
 		 * the filter work. And that's it!
-		 * 
+		 *
 		 * To access shader uniforms, just reference the `data` property of the GraphicsShader
 		 * instance.
-		 * 
+		 *
 		 * Thank you for reading! -gedehari
 		 */
 
@@ -946,8 +946,8 @@ class PlayState extends MusicBeatState
 		if (daNote.isSustainNote
 			&& (((daNote.y + daNote.offset.y <= (strumline.receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 2))
 			&& !Init.trueSettings.get('Downscroll'))
-			|| (((daNote.y - (daNote.offset.y * daNote.scale.y) + daNote.height) 
-			>= (strumline.receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 2)) 
+			|| (((daNote.y - (daNote.offset.y * daNote.scale.y) + daNote.height)
+			>= (strumline.receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 2))
 			&& Init.trueSettings.get('Downscroll')))
 			&& (autoplay || (daNote.wasGoodHit || (daNote.prevNote.wasGoodHit && !daNote.canBeHit))))
 		{
@@ -1382,6 +1382,14 @@ class PlayState extends MusicBeatState
 				hud.zoom += 0.05;
 		}
 
+		if (SONG.notes[Math.floor(curStep / 16)] != null)
+		{
+			if (SONG.notes[Math.floor(curStep / 16)].changeBPM)
+			{
+				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
+			}
+		}
+
 		uiHUD.beatHit();
 
 		//
@@ -1574,9 +1582,9 @@ class PlayState extends MusicBeatState
 							{
 								startCountdown();
 							}
-							
+
 						});
-						
+
 					});
 				});
 			case 'roses':
@@ -1587,7 +1595,7 @@ class PlayState extends MusicBeatState
 				inCutscene = true;
 				for (hud in allUIs)
 					hud.visible = false;
-				
+
 				var red:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
 				red.scrollFactor.set();
 
@@ -1651,7 +1659,7 @@ class PlayState extends MusicBeatState
 
 	public static function skipCutscenes():Bool {
 		// pretty messy but an if statement is messier
-		if (Init.trueSettings.get('Skip Text') != null 
+		if (Init.trueSettings.get('Skip Text') != null
 		&& Std.isOfType(Init.trueSettings.get('Skip Text'), String)) {
 			switch (cast(Init.trueSettings.get('Skip Text'), String))
 			{
@@ -1677,7 +1685,7 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 		Conductor.songPosition = -(Conductor.crochet * 5);
 		swagCounter = 0;
-		
+
 		camHUD.visible = true;
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
