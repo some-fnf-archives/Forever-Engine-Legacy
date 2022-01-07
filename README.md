@@ -2,9 +2,6 @@
 An open-source, modular, optimized, and HOPEFULLY easy to use [Friday Night Funkin'](https://www.newgrounds.com/portal/view/770371) mod engine!
 ----------------------------------------------
 
-![image](https://media.discordapp.net/attachments/821758818135572491/884267252357156934/FELogo.png?width=1095&height=676)
-[DISCORD SERVER](https://discord.gg/QJt9dUmbk3)
-
 Forever Engine is an open source modification of the Friday Night Funkin' engine. Forever Engine is not to be confused with its original name, FUNKIN FOREVER, which is now no longer the name of the engine. The reason this is important will have to do with future plans of ours, so stay tuned if you'd like to hear more about those ;)
 ----------------------------------------------
 The Forever Engine is based off of the aforementioned [Friday Night Funkin' Source](https://github.com/ninjamuffin99/Funkin). It's made to be more accessible and easier to build off of, as well as having a lot of quality of life changes and a much more focused direction on the more traditional feel of rhythm games, all while still keeping the same style and feel of Friday Night Funkin'. I know a lot of source codes are hard to work with for friday night funkin', usually very unoptimised or very unorganised, I wanted to fix both of these issues with Forever Engine and Funkin' Forever in the future. True to the spirit of [Newgrounds](https://www.newgrounds.com), Friday Night Funkin' should be accessible by everyone, both modders and gamers alike, and I wanted to make it my goal to fix a lot of the issues that prevented people from being able to use the base game's engine, as well as create a more polished engines, as I was unhappy with the current existing ones at the time.
@@ -62,14 +59,11 @@ rest of the rise n' skate team - that mod is the reason im even making an engine
 ----------------------------------------------
 SHOUTOUTS
 ----------------------------------------------
-[Fl0pD00dle](https://fl0pd00dle.newgrounds.com/) - Is making some custom assets in the future, is a really cool and underrated guy who's awesome to talk to. WHEN THEY'RE IMPLEMENTED HE'LL GET BUMPED TO CONTRIBUTOR (WORKING ON IT LOL)
-
 [HThagomizer](https://github.com/HThagomizer) - not MURDERING ME for accidentally pushing the martian mixtape source code
 
 [Tsuraran](https://twitter.com/_Tsuraran) - DOPE ASS CUSTOM MENU MUSIC INCOMING, also made vs skipper with clockwerk which is fucking hilarious ALSO YEAH I'LL BUMP AS WELL AFTER ITS IN THE ENGINE (YES IM WORKING ON IT TOO LMAO)
 
 [Clockwerk](https://twitter.com/ClockwerkSmurf) - also made vs skipper, oh my god what were you guys thinking
-
 ----------------------------------------------
 How to Compile:
 
