@@ -21,6 +21,7 @@ import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import openfl.media.Sound;
 import sys.FileSystem;
+import sys.thread.Mutex;
 import sys.thread.Thread;
 
 using StringTools;
@@ -42,6 +43,8 @@ class FreeplayState extends MusicBeatState
 
 	var songThread:Thread;
 	var threadActive:Bool = true;
+	var mutex:Mutex;
+	var songToPlay:Sound = null;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -58,6 +61,8 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		super.create();
+
+		mutex = new Mutex();
 
 		/**
 			Wanna add songs? They're in the Main state now, you can just find the week array and add a song there to a specific week.
@@ -245,6 +250,21 @@ class FreeplayState extends MusicBeatState
 		scoreBG.width = scoreText.width + 8;
 		scoreBG.x = FlxG.width - scoreBG.width;
 		diffText.x = scoreBG.x + (scoreBG.width / 2) - (diffText.width / 2);
+
+		mutex.acquire();
+		if (songToPlay != null)
+		{
+			FlxG.sound.playMusic(songToPlay);
+
+			if (FlxG.sound.music.fadeTween != null)
+				FlxG.sound.music.fadeTween.cancel();
+
+			FlxG.sound.music.volume = 0.0;
+			FlxG.sound.music.fadeIn(1.0, 0.0, 1.0);
+
+			songToPlay = null;
+		}
+		mutex.release();
 	}
 
 	var lastDifficulty:String;
@@ -343,13 +363,9 @@ class FreeplayState extends MusicBeatState
 
 							if (index == curSelected && threadActive)
 							{
-								FlxG.sound.playMusic(inst);
-
-								if (FlxG.sound.music.fadeTween != null)
-									FlxG.sound.music.fadeTween.cancel();
-
-								FlxG.sound.music.volume = 0.0;
-								FlxG.sound.music.fadeIn(1.0, 0.0, 1.0);
+								mutex.acquire();
+								songToPlay = inst;
+								mutex.release();
 
 								curSongPlaying = curSelected;
 							}
