@@ -431,7 +431,7 @@ class PlayState extends MusicBeatState
 
 				boyfriendStrums.allNotes.forEachAlive(function(daNote:Note)
 				{
-					if ((daNote.noteData == key) && daNote.canBeHit && !daNote.tooLate && !daNote.wasGoodHit)
+					if ((daNote.noteData == key) && daNote.canBeHit && !daNote.isSustainNote && !daNote.tooLate && !daNote.wasGoodHit)
 						possibleNoteList.push(daNote);
 				});
 				possibleNoteList.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
