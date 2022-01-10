@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.effects.FlxTrail;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
@@ -389,19 +390,28 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	}
 
 	// get the dad's position
-	public function dadPosition(curStage, dad:Character, gf:Character, camPos:FlxPoint, songPlayer2):Void
+	public function dadPosition(curStage, boyfriend:Character, dad:Character, gf:Character, camPos:FlxPoint):Void
 	{
-		switch (songPlayer2)
-		{
-			case 'gf':
-				dad.setPosition(gf.x, gf.y);
-				gf.visible = false;
-			/*
-				if (isStoryMode)
-				{
-					camPos.x += 600;
-					tweenCamIn();
-			}*/
+		var characterArray:Array<Character> = [dad, boyfriend];
+		for (char in characterArray) {
+			switch (char.curCharacter)
+			{
+				case 'gf':
+					char.setPosition(gf.x, gf.y);
+					gf.visible = false;
+				/*
+					if (isStoryMode)
+					{
+						camPos.x += 600;
+						tweenCamIn();
+				}*/
+				/*
+				case 'spirit':
+					var evilTrail = new FlxTrail(char, null, 4, 24, 0.3, 0.069);
+					evilTrail.changeValuesEnabled(false, false, false, false);
+					add(evilTrail);
+					*/
+			}
 		}
 	}
 
@@ -416,7 +426,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 			case 'mall':
 				boyfriend.x += 200;
-				dad.x -= 200;
+				dad.x -= 400;
+				dad.y += 20;
 
 			case 'mallEvil':
 				boyfriend.x += 320;
@@ -428,20 +439,13 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				gf.x += 200;
 				gf.y += 320;
 			case 'schoolEvil':
-				// trailArea.scrollFactor.set();
-
-				// var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069);
-				// evilTrail.changeValuesEnabled(false, false, false, false);
-				// evilTrail.changeGraphic()
-				// add(evilTrail);
-				// evilTrail.scrollFactor.set(1.1, 1.1);
-
 				dad.x -= 150;
 				dad.y += 50;
 				boyfriend.x += 200;
 				boyfriend.y += 220;
 				gf.x += 180;
 				gf.y += 300;
+
 		}
 	}
 

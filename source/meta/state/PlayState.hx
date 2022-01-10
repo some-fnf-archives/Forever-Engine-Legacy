@@ -239,7 +239,7 @@ class PlayState extends MusicBeatState
 		var camPos:FlxPoint = new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 
 		stageBuild.repositionPlayers(curStage, boyfriend, dadOpponent, gf);
-		stageBuild.dadPosition(curStage, dadOpponent, gf, camPos, SONG.player2);
+		stageBuild.dadPosition(curStage, boyfriend, dadOpponent, gf, camPos);
 
 		changeableSkin = Init.trueSettings.get("UI Skin");
 		if ((curStage.startsWith("school")) && ((determinedChartType == "FNF")))
@@ -1425,13 +1425,13 @@ class PlayState extends MusicBeatState
 
 		if ((boyfriend.animation.curAnim.name.startsWith("idle") 
 		|| boyfriend.animation.curAnim.name.startsWith("dance")) 
-		&& (curBeat % 2 == 0 || boyfriend.quickDancer))
+			&& (curBeat % 2 == 0 || boyfriend.characterData.quickDancer))
 			boyfriend.dance();
 
 		// added this for opponent cus it wasn't here before and skater would just freeze
 		if ((dadOpponent.animation.curAnim.name.startsWith("idle") 
 		|| dadOpponent.animation.curAnim.name.startsWith("dance"))  
-		&& (curBeat % 2 == 0 || dadOpponent.quickDancer))
+			&& (curBeat % 2 == 0 || dadOpponent.characterData.quickDancer))
 			dadOpponent.dance();
 	}
 

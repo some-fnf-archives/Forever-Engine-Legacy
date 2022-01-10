@@ -22,14 +22,11 @@ typedef CharacterData = {
 	var offsetY:Float;
 	var camOffsetX:Float;
 	var camOffsetY:Float;
+	var quickDancer:Bool;
 }
 
 class Character extends FNFSprite
 {
-	// By default, this option set to FALSE will make it so that the character only dances twice per major beat hit
-	// If set to on, they will dance every beat, such as Skid and Pump
-	public var quickDancer:Bool = false;
-
 	public var debugMode:Bool = false;
 
 	public var isPlayer:Bool = false;
@@ -56,7 +53,8 @@ class Character extends FNFSprite
 			offsetY: 0,
 			offsetX: 0, 
 			camOffsetY: 0,
-			camOffsetX: 0
+			camOffsetX: 0,
+			quickDancer: false
 		};
 
 		switch (curCharacter)
@@ -155,7 +153,7 @@ class Character extends FNFSprite
 				animation.addByIndices('danceLeft', 'spooky dance idle', [0, 2, 6], "", 12, false);
 				animation.addByIndices('danceRight', 'spooky dance idle', [8, 10, 12, 14], "", 12, false);
 
-				quickDancer = true;
+				characterData.quickDancer = true;
 
 				playAnim('danceRight');
 			case 'mom':
@@ -438,9 +436,10 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				antialiasing = false;
+				characterData.quickDancer = true;
 
 				characterData.camOffsetY = 50;
-				characterData.camOffsetX = -100;
+				characterData.camOffsetX = 100;
 
 			case 'parents-christmas':
 				frames = Paths.getSparrowAtlas('characters/mom_dad_christmas_assets');
