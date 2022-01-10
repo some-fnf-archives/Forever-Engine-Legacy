@@ -115,8 +115,8 @@ class PauseSubState extends MusicBeatSubState
 		// trace('updated event');
 		#end
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
+		var upP = controls.UI_UP_P;
+		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
 
 		if (upP)
@@ -137,7 +137,7 @@ class PauseSubState extends MusicBeatSubState
 				case "Resume":
 					close();
 				case "Restart Song":
-					FlxG.resetState();
+					Main.switchState(this, new PlayState());
 				case "Exit to menu":
 					PlayState.resetMusic();
 

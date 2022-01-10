@@ -88,8 +88,6 @@ class ChartLoader
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 							var sustainNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier,
 								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, 0, daNoteAlt, true, oldNote);
-							// if (PlayState.isPixel)
-							//	sustainNote.foreverMods.get('type')[0] = 1;
 							sustainNote.scrollFactor.set();
 
 							unspawnNotes.push(sustainNote);

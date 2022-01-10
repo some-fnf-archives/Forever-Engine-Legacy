@@ -100,7 +100,6 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		// LOAD CHARACTERS
-
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		add(bg);
 
@@ -200,8 +199,8 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
+		var upP = controls.UI_UP_P;
+		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
 
 		if (upP)
@@ -209,9 +208,9 @@ class FreeplayState extends MusicBeatState
 		else if (downP)
 			changeSelection(1);
 
-		if (controls.LEFT_P)
+		if (controls.UI_LEFT_P)
 			changeDiff(-1);
-		if (controls.RIGHT_P)
+		if (controls.UI_RIGHT_P)
 			changeDiff(1);
 
 		if (controls.BACK)
@@ -340,7 +339,7 @@ class FreeplayState extends MusicBeatState
 						{
 							trace("Loading index " + index);
 
-							var inst:Sound = Sound.fromFile('./' + Paths.inst(songs[curSelected].songName));
+							var inst:Sound = Paths.inst(songs[curSelected].songName);
 
 							if (index == curSelected && threadActive)
 							{

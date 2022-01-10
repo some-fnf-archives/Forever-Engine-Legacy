@@ -106,15 +106,17 @@ class OptionsSubstate extends MusicBeatSubState
 
 		var arrayTemp:Array<String> = [];
 		// re-sort everything according to the list numbers
-		for (controlString in Init.gameControls.keys())
+		for (controlString in Init.gameControls.keys()) {
 			arrayTemp[Init.gameControls.get(controlString)[1]] = controlString;
-
+		}
 		arrayTemp.push("EDIT OFFSET"); // append edit offset to the end of the array
 
 		for (i in 0...arrayTemp.length)
 		{
+			if (arrayTemp[i] == null)
+				arrayTemp[i] = '';
 			// generate key options lol
-			var optionsText:Alphabet = new Alphabet(0, 0, arrayTemp[i], true, false);
+			var optionsText:Alphabet = new Alphabet(0, 0, arrayTemp[i].replace("_", " "), true, false);
 			optionsText.screenCenter();
 			optionsText.y += (90 * (i - (arrayTemp.length / 2)));
 			optionsText.targetY = i;
@@ -142,7 +144,7 @@ class OptionsSubstate extends MusicBeatSubState
 			{
 				var keyString = "";
 
-				if (arrayTemp[i] != "EDIT OFFSET")
+				if (Init.gameControls.exists(arrayTemp[i]))
 					keyString = getStringKey(Init.gameControls.get(arrayTemp[i])[0][j]);
 
 				var secondaryText:Alphabet = new Alphabet(0, 0, keyString, false, false);
@@ -178,9 +180,9 @@ class OptionsSubstate extends MusicBeatSubState
 
 	private function updateSelection(equal:Int = 0)
 	{
-		if (equal != curSelection)
+		if (equal != curSelection) 
 			FlxG.sound.play(Paths.sound('scrollMenu'));
-
+		var prevSelection:Int = curSelection;
 		curSelection = equal;
 		// wrap the current selection
 		if (curSelection < 0)
@@ -204,14 +206,16 @@ class OptionsSubstate extends MusicBeatSubState
 		}
 		otherKeys.members[(curSelection * 2) + curHorizontalSelection].alpha = 1;
 		// */
+		if (keyOptions.members[curSelection].text == '' && curSelection != prevSelection)
+			updateSelection(curSelection + (curSelection - prevSelection));
 	}
 
 	private var curHorizontalSelection = 0;
 
 	private function updateHorizontalSelection()
 	{
-		var left = controls.LEFT_P;
-		var right = controls.RIGHT_P;
+		var left = controls.UI_LEFT_P;
+		var right = controls.UI_RIGHT_P;
 		var horizontalControl:Array<Bool> = [left, false, right];
 
 		if (horizontalControl.contains(true))
@@ -245,10 +249,10 @@ class OptionsSubstate extends MusicBeatSubState
 
 		if (!submenuOpen)
 		{
-			var up = controls.UP;
-			var down = controls.DOWN;
-			var up_p = controls.UP_P;
-			var down_p = controls.DOWN_P;
+			var up = controls.UI_UP;
+			var down = controls.UI_DOWN;
+			var up_p = controls.UI_UP_P;
+			var down_p = controls.UI_DOWN_P;
 			var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
 			if (controlArray.contains(true))
@@ -339,9 +343,8 @@ class OptionsSubstate extends MusicBeatSubState
 				var checkKey = FlxG.keys.getIsDown()[0].ID;
 
 				// check if any keys use the same key lol
-				for (i in 0...otherKeys.members.length)
-				{
-					///*
+				/*
+				for (i in 0...otherKeys.members.length)	{
 					if (otherKeys.members[i].text == checkKey.toString())
 					{
 						// switch them I guess???
@@ -349,8 +352,8 @@ class OptionsSubstate extends MusicBeatSubState
 						Init.gameControls.get(keyOptions.members[otherKeys.members[i].controlGroupID].text)[0][otherKeys.members[i].extensionJ] = oldKey;
 						otherKeys.members[i].text = getStringKey(oldKey);
 					}
-					//*/
 				}
+				*/
 
 				// now check if its the key we want to change
 				Init.gameControls.get(keyOptions.members[curSelection].text)[0][curHorizontalSelection] = checkKey;

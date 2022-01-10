@@ -44,7 +44,12 @@ class Note extends FNFSprite
 	public var noteSpeed:Float = 0;
 	public var noteDirection:Float = 0;
 
+	public var parentNote:Note; 
+	public var childrenNotes:Array<Note> = [];
+
 	public static var swagWidth:Float = 160 * 0.7;
+	// it has come to this.
+	public var endHoldOffset:Float = Math.NEGATIVE_INFINITY;
 
 	public function new(strumTime:Float, noteData:Int, noteAlt:Float, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
@@ -62,6 +67,16 @@ class Note extends FNFSprite
 		this.strumTime = strumTime;
 		this.noteData = noteData;
 		this.noteAlt = noteAlt;
+
+		// determine parent note
+		if (isSustainNote && prevNote != null)
+		{
+			parentNote = prevNote;
+			while (parentNote.parentNote != null)
+				parentNote = parentNote.parentNote;
+			parentNote.childrenNotes.push(this);
+		} else if (!isSustainNote)
+			parentNote = null;
 	}
 
 	override function update(elapsed:Float)
@@ -70,19 +85,17 @@ class Note extends FNFSprite
 
 		if (mustPress)
 		{
-			if (strumTime > Conductor.songPosition - (Timings.msThreshold) && strumTime < Conductor.songPosition + (Timings.msThreshold))
+			if (strumTime > Conductor.songPosition - (Timings.msThreshold) 
+				&& strumTime < Conductor.songPosition + (Timings.msThreshold))
 				canBeHit = true;
 			else
 				canBeHit = false;
-
-			if (strumTime < Conductor.songPosition - (Timings.msThreshold) && !wasGoodHit)
-				tooLate = true;
 		}
 		else // make sure the note can't be hit if it's the dad's I guess
 			canBeHit = false;
 
-		if (tooLate)
-			alpha -= 0.05;
+		if (tooLate || (parentNote != null && parentNote.tooLate))
+			alpha = 0.3;
 	}
 
 	/**

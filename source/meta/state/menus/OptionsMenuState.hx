@@ -74,36 +74,33 @@ class OptionsMenuState extends MusicBeatState
 					['FPS Counter', getFromOption],
 					['Memory Counter', getFromOption],
 					['Debug Info', getFromOption],
-					['', null],
-					['Forever Settings', null],
-					['', null],
-					['Use Forever Chart Editor', getFromOption],
-					['Custom Titlescreen', getFromOption]
 				]
 			],
 			'appearance' => [
 				[
-					['Common Settings', null],
+					['Judgements', null],
 					['', null],
-					['Disable Antialiasing', getFromOption],
-					['No Camera Note Movement', getFromOption],
-					['Fixed Judgements', getFromOption],
+					["UI Skin", getFromOption],
+					['Fixed Judgements', getFromOption], 
 					['Simply Judgements', getFromOption],
+					['Counter', getFromOption],
+					['', null],
+					['Notes', null],
+					['', null],
+					["Note Skin", getFromOption],
+					["Clip Style", getFromOption],
+					['No Camera Note Movement', getFromOption],
+					['Disable Note Splashes', getFromOption],
+					['Opaque Arrows', getFromOption],
+					['Opaque Holds', getFromOption],
 					['', null],
 					['Accessibility Settings', null],
 					['', null],
 					['Filter', getFromOption],
-					["Stage Darkness", getFromOption],
+					['Disable Antialiasing', getFromOption],
+					["Stage Opacity", getFromOption],
+					["Opacity Type", getFromOption],
 					['Reduced Movements', getFromOption],
-					// this shouldn't be get from option, just testing
-					['', null],
-					['User Interface', null],
-					['', null],
-					["UI Skin", getFromOption],
-					["Note Skin", getFromOption],
-					['Disable Note Splashes', getFromOption],
-					['Opaque Arrows', getFromOption],
-					['Opaque Holds', getFromOption],
 				]
 			]
 		];
@@ -202,11 +199,12 @@ class OptionsMenuState extends MusicBeatState
 			if (currentAttachmentMap != null)
 				setAttachmentAlpha(currentAttachmentMap.get(activeSubgroup.members[i]), 0.6);
 			activeSubgroup.members[i].targetY = (i - curSelection) / 2;
+			activeSubgroup.members[i].xTo = 200 + ((i - curSelection) * 25);
 
 			// check for null members and hardcode the dividers
 			if (categoryMap.get(curCategory)[0][i][1] == null) {
 				activeSubgroup.members[i].alpha = 1;
-				activeSubgroup.members[i].xTo = Std.int((FlxG.width / 2) - ((activeSubgroup.members[i].text.length / 2) * 40));
+				activeSubgroup.members[i].xTo += Std.int((FlxG.width / 2) - ((activeSubgroup.members[i].text.length / 2) * 40)) - 200;
 			}
 		}
 
@@ -316,10 +314,10 @@ class OptionsMenuState extends MusicBeatState
 
 	function updateSelections()
 	{
-		var up = controls.UP;
-		var down = controls.DOWN;
-		var up_p = controls.UP_P;
-		var down_p = controls.DOWN_P;
+		var up = controls.UI_UP;
+		var down = controls.UI_DOWN;
+		var up_p = controls.UI_UP_P;
+		var down_p = controls.UI_DOWN_P;
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
 		if (controlArray.contains(true))
@@ -389,7 +387,7 @@ class OptionsMenuState extends MusicBeatState
 					case Init.SettingTypes.Selector:
 						// selector
 						var selector:Selector = new Selector(10, letter.y, letter.text, Init.gameSettings.get(letter.text)[4],
-							(letter.text == 'Framerate Cap') ? true : false, (letter.text == 'Stage Darkness') ? true : false);
+							(letter.text == 'Framerate Cap') ? true : false, (letter.text == 'Stage Opacity') ? true : false);
 
 						extrasMap.set(letter, selector);
 					default:
@@ -434,14 +432,14 @@ class OptionsMenuState extends MusicBeatState
 					#if !html5
 					var selector:Selector = currentAttachmentMap.get(activeSubgroup.members[curSelection]);
 
-					if (!controls.LEFT)
+					if (!controls.UI_LEFT)
 						selector.selectorPlay('left');
-					if (!controls.RIGHT)
+					if (!controls.UI_RIGHT)
 						selector.selectorPlay('right');
 
-					if (controls.RIGHT_P)
+					if (controls.UI_RIGHT_P)
 						updateSelector(selector, 1);
-					else if (controls.LEFT_P)
+					else if (controls.UI_LEFT_P)
 						updateSelector(selector, -1);
 					#end
 				default:
@@ -450,8 +448,10 @@ class OptionsMenuState extends MusicBeatState
 		}
 	}
 
-	function updateCheckmark(checkmark:FNFSprite, animation:Bool)
-		checkmark.playAnim(Std.string(animation));
+	function updateCheckmark(checkmark:FNFSprite, animation:Bool) {
+		if (checkmark != null)
+			checkmark.playAnim(Std.string(animation));
+	}
 
 	function updateSelector(selector:Selector, updateBy:Int)
 	{

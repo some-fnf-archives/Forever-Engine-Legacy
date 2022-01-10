@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxColor;
 import haxe.CallStack.StackItem;
 import haxe.CallStack;
@@ -13,6 +14,8 @@ import lime.app.Application;
 import meta.*;
 import meta.data.PlayerSettings;
 import meta.data.dependency.Discord;
+import meta.data.dependency.FNFTransition;
+import meta.data.dependency.FNFUIState;
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.FPS;
@@ -68,7 +71,7 @@ class Main extends Sprite
 	public static var mainClassState:Class<FlxState> = Init; // Determine the main class state of the game
 	public static var framerate:Int = 120; // How many frames per second the game should run at.
 
-	public static var gameVersion:String = '0.2.4.2';
+	public static var gameVersion:String = '0.3';
 
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
@@ -167,6 +170,8 @@ class Main extends Sprite
 			// if set to negative one, it is done so automatically, which is the default.
 		}
 
+		FlxTransitionableState.skipNextTransIn = true;
+		
 		// here we set up the base game
 		var gameCreate:FlxGame;
 		gameCreate = new FlxGame(gameWidth, gameHeight, mainClassState, zoom, framerate, framerate, skipSplash);
@@ -203,17 +208,19 @@ class Main extends Sprite
 
 	public static function switchState(curState:FlxState, target:FlxState)
 	{
-		// this is for a dumb feature that has no use except for cool extra info
-		// though I suppose this could be of use to people who want to load things between classes and such
-
-		// save the last state for comparison checks
-		lastState = curState;
-
-		// credit for the idea and a bit of the execution https://github.com/ninjamuffin99/Funkin/pull/1083
+		// Custom made Trans in
 		mainClassState = Type.getClass(target);
-
+		if (!FlxTransitionableState.skipNextTransIn)
+		{
+			curState.openSubState(new FNFTransition(0.35, false));
+			FNFTransition.finishCallback = function() {
+				FlxG.switchState(target);
+			};
+			return trace('changed state');
+		}
+		FlxTransitionableState.skipNextTransIn = false;
 		// load the state
-		FlxG.switchState(target);
+		FlxG.switchState(target);		
 	}
 
 	public static function updateFramerate(newFramerate:Int)
@@ -230,25 +237,6 @@ class Main extends Sprite
 			FlxG.updateFramerate = newFramerate;
 		}
 	}
-
-	public static function dumpCache()
-	{
-		///* SPECIAL THANKS TO HAYA
-		@:privateAccess
-		for (key in FlxG.bitmap._cache.keys())
-		{
-			var obj = FlxG.bitmap._cache.get(key);
-			if (obj != null)
-			{
-				Assets.cache.removeBitmapData(key);
-				FlxG.bitmap._cache.remove(key);
-				obj.destroy();
-			}
-		}
-		Assets.cache.clear("songs");
-		// */
-	}
-	
 
 	function onCrash(e:UncaughtErrorEvent):Void
 	{

@@ -112,15 +112,14 @@ class ForeverAssets
 		return rating;
 	}
 
-	public static function generateNoteSplashes(asset:String, assetModifier:String = 'base', baseLibrary:String, noteData:Int):NoteSplash
+	public static function generateNoteSplashes(asset:String, assetModifier:String = 'base', changeableSkin:String = 'default', baseLibrary:String, noteData:Int):NoteSplash
 	{
 		//
 		var tempSplash:NoteSplash = new NoteSplash(noteData);
 		switch (assetModifier)
 		{
 			case 'pixel':
-				tempSplash.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('splash-pixel', assetModifier, Init.trueSettings.get("Note Skin"),
-					'noteskins/notes')), true, 34,
+				tempSplash.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('splash-pixel', assetModifier, changeableSkin, baseLibrary)), true, 34,
 					34);
 				tempSplash.animation.add('anim1', [noteData, 4 + noteData, 8 + noteData, 12 + noteData], 24, false);
 				tempSplash.animation.add('anim2', [16 + noteData, 20 + noteData, 24 + noteData, 28 + noteData], 24, false);
@@ -131,9 +130,7 @@ class ForeverAssets
 
 			default:
 				// 'UI/$assetModifier/notes/noteSplashes'
-				tempSplash.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('noteSplashes', assetModifier, Init.trueSettings.get("Note Skin"),
-					'noteskins/notes')), true,
-					210, 210);
+				tempSplash.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('noteSplashes', assetModifier, changeableSkin, baseLibrary)), true, 210, 210);
 				tempSplash.animation.add('anim1', [
 					(noteData * 2 + 1),
 					8 + (noteData * 2 + 1),
@@ -151,17 +148,6 @@ class ForeverAssets
 				tempSplash.animation.play('anim1');
 				tempSplash.addOffset('anim1', -20, -10);
 				tempSplash.addOffset('anim2', -20, -10);
-
-				/*
-					tempSplash.frames = Paths.getSparrowAtlas('UI/$assetModifier/notes/noteSplashes');
-					// get a random value for the note splash type
-					tempSplash.animation.addByPrefix('anim1', 'note impact 1 ' + UIStaticArrow.getColorFromNumber(noteData), 24, false);
-					tempSplash.animation.addByPrefix('anim2', 'note impact 2 ' + UIStaticArrow.getColorFromNumber(noteData), 24, false);
-					tempSplash.animation.play('anim1');
-
-					tempSplash.addOffset('anim1', 16, 16);
-					tempSplash.addOffset('anim2', 16, 16);
-				 */
 		}
 
 		return tempSplash;
@@ -258,9 +244,9 @@ class ForeverAssets
 		else
 			newNote = Note.returnDefaultNote(assetModifier, strumTime, noteData, noteType, noteAlt, isSustainNote, prevNote);
 
-		// hold note offset
-		if (isSustainNote && prevNote != null)
-		{
+		// hold note shit 
+		if (isSustainNote && prevNote != null) {
+			// set note offset
 			if (prevNote.isSustainNote)
 				newNote.noteVisualOffset = prevNote.noteVisualOffset;
 			else // calculate a new visual offset based on that note's width and newnote's width

@@ -16,11 +16,11 @@ class Timings
 	// from left to right
 	// max milliseconds, score from it and percentage
 	public static var judgementsMap:Map<String, Array<Dynamic>> = [
-		"sick" => [0, 50, 350, 100, ' [SFC]'],
-		"good" => [1, 100, 150, 75, ' [GFC]'],
-		"bad" => [2, 120, 0, 25, ' [FC]'],
-		"shit" => [3, 140, -50, -150],
-		"miss" => [4, 180, -100, -175],
+		"sick" => [0, 55, 350, 100, ' [SFC]'],
+		"good" => [1, 80, 150, 75, ' [GFC]'],
+		"bad" => [2, 100, 0, 25, ' [FC]'],
+		"shit" => [3, 120, -50, -150],
+		"miss" => [4, 140, -100, -175],
 	];
 
 	public static var msThreshold:Float = 0;
@@ -39,9 +39,8 @@ class Timings
 
 	public static var ratingFinal:String = "f";
 	public static var notesHit:Int = 0;
-
+	public static var segmentsHit:Int = 0;
 	public static var comboDisplay:String = '';
-	public static var notesHitNoSus:Int = 0;
 
 	public static var gottenJudgements:Map<String, Int> = [];
 	public static var smallestRating:String;
@@ -66,7 +65,7 @@ class Timings
 		smallestRating = 'sick';
 
 		notesHit = 0;
-		notesHitNoSus = 0;
+		segmentsHit = 0;
 
 		ratingFinal = "f";
 
@@ -88,12 +87,14 @@ class Timings
 		}
 	}
 
-	public static function updateAccuracy(judgement:Int, isSustain:Bool = false)
+	public static function updateAccuracy(judgement:Int, ?isSustain:Bool = false, ?segmentCount:Int = 1)
 	{
-		notesHit++;
-		if (!isSustain)
-			notesHitNoSus++;
-		accuracy += Math.max(0, judgement);
+		if (!isSustain) {
+			notesHit++;
+			accuracy += (Math.max(0, judgement));
+		} else {
+			accuracy += (Math.max(0, judgement) / segmentCount);
+		}
 		trueAccuracy = (accuracy / notesHit);
 
 		updateFCDisplay();

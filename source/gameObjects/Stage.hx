@@ -402,35 +402,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 					camPos.x += 600;
 					tweenCamIn();
 			}*/
-
-			case "spooky":
-				dad.y += 200;
-			case "monster":
-				dad.y += 100;
-			case 'monster-christmas':
-				dad.y += 130;
-			case 'dad':
-				camPos.x += 400;
-			case 'pico':
-				camPos.x += 600;
-				dad.y += 300;
-			case 'parents-christmas':
-				dad.x -= 500;
-			case 'senpai':
-				dad.x += 150;
-				dad.y += 360;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
-			case 'senpai-angry':
-				dad.x += 150;
-				dad.y += 360;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
-			case 'spirit':
-				dad.x -= 150;
-				dad.y += 100;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
-			case 'tankman':
-				dad.x += 50;
-				dad.y += 200;
 		}
 	}
 
@@ -443,9 +414,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				boyfriend.y -= 220;
 				boyfriend.x += 260;
 
-			// resetFastCar();
-			// add(fastCar);
-
 			case 'mall':
 				boyfriend.x += 200;
 
@@ -455,8 +423,10 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			case 'school':
 				boyfriend.x += 200;
 				boyfriend.y += 220;
-				gf.x += 180;
-				gf.y += 300;
+				dad.x += 200;
+				dad.y += 580;
+				gf.x += 200;
+				gf.y += 320;
 			case 'schoolEvil':
 				// trailArea.scrollFactor.set();
 
@@ -470,6 +440,13 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				boyfriend.y += 220;
 				gf.x += 180;
 				gf.y += 300;
+		}
+
+		var characterUpdateList:Array<Character> = [boyfriend, dad];
+		for (character in characterUpdateList) {
+			character.x += character.characterData.offsetX;
+			trace('character ${character.curCharacter} scale ${character.scale.y}');
+			character.y += (character.characterData.offsetY - (character.frameHeight * character.scale.y));
 		}
 	}
 

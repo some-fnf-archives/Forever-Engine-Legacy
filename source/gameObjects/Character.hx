@@ -17,6 +17,13 @@ import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
+typedef CharacterData = {
+	var offsetX:Float;
+	var offsetY:Float;
+	var camOffsetX:Float;
+	var camOffsetY:Float;
+}
+
 class Character extends FNFSprite
 {
 	// By default, this option set to FALSE will make it so that the character only dances twice per major beat hit
@@ -29,6 +36,8 @@ class Character extends FNFSprite
 	public var curCharacter:String = 'bf';
 
 	public var holdTimer:Float = 0;
+
+	public var characterData:CharacterData;
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -43,6 +52,13 @@ class Character extends FNFSprite
 		curCharacter = character;
 		var tex:FlxAtlasFrames;
 		antialiasing = true;
+
+		characterData = {
+			offsetY: 0,
+			offsetX: 0, 
+			camOffsetY: 0,
+			camOffsetX: 0
+		};
 
 		switch (curCharacter)
 		{
@@ -184,14 +200,15 @@ class Character extends FNFSprite
 				animation.addByPrefix('singRIGHT', 'Monster left note', 24, false);
 
 				playAnim('idle');
+
 			case 'monster-christmas':
 				tex = Paths.getSparrowAtlas('characters/monsterChristmas');
 				frames = tex;
 				animation.addByPrefix('idle', 'monster idle', 24, false);
 				animation.addByPrefix('singUP', 'monster up note', 24, false);
 				animation.addByPrefix('singDOWN', 'monster down', 24, false);
-				animation.addByPrefix('singLEFT', 'Monster left note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Monster Right note', 24, false);
+				animation.addByPrefix('singRIGHT', 'Monster left note', 24, false);
+				animation.addByPrefix('singLEFT', 'Monster Right note', 24, false);
 
 				playAnim('idle');
 			case 'pico':
@@ -241,6 +258,8 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				flipX = true;
+
+				characterData.offsetY = 70;
 			/*
 				case 'bf-og':
 					frames = Paths.getSparrowAtlas('characters/og/BOYFRIEND');
@@ -399,7 +418,6 @@ class Character extends FNFSprite
 				updateHitbox();
 
 				antialiasing = false;
-
 			case 'spirit':
 				frames = Paths.getPackerAtlas('characters/spirit');
 				animation.addByPrefix('idle', "idle spirit_", 24, false);
@@ -414,7 +432,6 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				antialiasing = false;
-
 			case 'parents-christmas':
 				frames = Paths.getSparrowAtlas('characters/mom_dad_christmas_assets');
 				animation.addByPrefix('idle', 'Parent Christmas Idle', 24, false);
@@ -430,30 +447,6 @@ class Character extends FNFSprite
 				animation.addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
 
 				playAnim('idle');
-			case 'tankman':
-				frames = Paths.getSparrowAtlas('characters/tankmanCaptain');
-				animation.addByPrefix('idle', 'Tankman Idle Dance instance', 24, false);
-
-				animation.addByPrefix('singUP', 'Tankman UP note instance', 24, false);
-				animation.addByPrefix('singRIGHT', 'Tankman Note Left instance', 24, false);
-				animation.addByPrefix('singLEFT', 'Tankman Right Note instance', 24, false);
-				animation.addByPrefix('singDOWN', 'Tankman DOWN note instance', 24, false);
-
-				animation.addByPrefix('singUP-alt', 'TANKMAN UGH instance', 24, false);
-				animation.addByPrefix('singDOWN-alt', 'PRETTY GOOD tankman instance', 24, false);
-
-				flipX = true;
-				playAnim('idle');
-			// flipX = true;
-			case 'pico-speaker':
-				frames = Paths.getSparrowAtlas('characters/picoSpeaker');
-
-				animation.addByPrefix('shoot1', 'Pico shoot 1', 24, false);
-				animation.addByPrefix('shoot2', 'Pico shoot 2', 24, false);
-				animation.addByPrefix('shoot3', 'Pico shoot 3', 24, false);
-				animation.addByPrefix('shoot4', 'Pico shoot 4', 24, false);
-
-				playAnim('shoot1');
 			default:
 				// set up animations if they aren't already
 
@@ -472,19 +465,11 @@ class Character extends FNFSprite
 						animation.addByPrefix(getterArray[i][0], getterArray[i][1].trim(), 24, false);
 					}
 				}
-				else
-				{
-					// DAD ANIMATION LOADING CODE
-					tex = Paths.getSparrowAtlas('characters/DADDY_DEAREST');
-					frames = tex;
-					animation.addByPrefix('idle', 'Dad idle dance', 30, false);
-					animation.addByPrefix('singUP', 'Dad Sing Note UP', 24);
-					animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24);
-					animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24);
-					animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24);
-
-					playAnim('idle');
+				else {
+					setCharacter(x, y, 'bf');
+					return; 
 				}
+					
 		}
 
 		// set up offsets cus why not
@@ -539,7 +524,7 @@ class Character extends FNFSprite
 
 	override function update(elapsed:Float)
 	{
-		if (!curCharacter.startsWith('bf'))
+		if (!isPlayer)
 		{
 			if (animation.curAnim.name.startsWith('sing'))
 			{
@@ -600,9 +585,13 @@ class Character extends FNFSprite
 					}
 				default:
 					// Left/right dancing, think Skid & Pump
-					if (animation.getByName('danceLeft') != null && animation.getByName('danceRight') != null)
-						playAnim((animation.curAnim.name == 'danceRight') ? 'danceLeft' : 'danceRight', forced);
-					// Play normal idle animations for all other characters
+					if (animation.getByName('danceLeft') != null && animation.getByName('danceRight') != null) {
+						danced = !danced;
+						if (danced)
+							playAnim('danceRight', forced);
+						else
+							playAnim('danceLeft', forced);
+					}
 					else
 						playAnim('idle', forced);
 			}

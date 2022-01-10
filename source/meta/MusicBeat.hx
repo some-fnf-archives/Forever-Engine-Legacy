@@ -34,9 +34,11 @@ class MusicBeatState extends FNFUIState
 	// class create event
 	override function create()
 	{
-		// dump the cache if you're going elsewhere
-		if (Main.lastState != this)
-			Main.dumpCache();
+		// dump
+		Paths.clearStoredMemory();
+		if ((!Std.isOfType(this,meta.state.PlayState)) 
+		&& (!Std.isOfType(this, meta.state.charting.OriginalChartingState)))
+			Paths.clearUnusedMemory();
 
 		if (transIn != null)
 			trace('reg ' + transIn.region);
@@ -59,15 +61,37 @@ class MusicBeatState extends FNFUIState
 
 	public function updateContents()
 	{
-		// everyStep();
-		var oldStep:Int = curStep;
-
 		updateCurStep();
 		updateBeat();
 
-		if (oldStep != curStep && curStep > 0)
+		// delta time bullshit 
+		var trueStep:Int = curStep;
+		for (i in storedSteps)
+			if (i < oldStep)
+				storedSteps.remove(i);
+		for (i in oldStep...trueStep) {
+			if (!storedSteps.contains(i) && i > 0) {
+				curStep = i;
+				stepHit();
+				skippedSteps.push(i);
+			}
+		}
+		if (skippedSteps.length > 0) {
+			trace('skipped steps $skippedSteps');
+			skippedSteps = [];
+		}
+		curStep = trueStep;
+
+		//
+		if (oldStep != curStep && curStep > 0 
+			&& !storedSteps.contains(curStep)) 
 			stepHit();
+		oldStep = curStep;
 	}
+
+	var oldStep:Int = 0;
+	var storedSteps:Array<Int> = [];
+	var skippedSteps:Array<Int> = [];
 
 	public function updateBeat():Void
 	{
@@ -94,6 +118,13 @@ class MusicBeatState extends FNFUIState
 	{
 		if (curStep % 4 == 0)
 			beatHit();
+		
+		// trace('step $curStep');
+
+		if (!storedSteps.contains(curStep))
+			storedSteps.push(curStep);
+		else
+			trace('SOMETHING WENT WRONG??? STEP REPEATED $curStep');
 	}
 
 	public function beatHit():Void

@@ -354,7 +354,7 @@ class DialogueBox extends FlxSpriteGroup
 				var enterX = -20;
 				var newFlip = false;
 
-				if (Std.is(portraitData.position, String))
+				if (Std.isOfType(portraitData.position, String))
 				{
 					switch (portraitData.position)
 					{
@@ -366,7 +366,7 @@ class DialogueBox extends FlxSpriteGroup
 							newX = 400;
 					}
 				}
-				else if (Std.is(portraitData.position, Array))
+				else if (Std.isOfType(portraitData.position, Array))
 				{
 					if (portraitData.flipX)
 						enterX = -enterX;
@@ -444,7 +444,7 @@ class DialogueBox extends FlxSpriteGroup
 
 				eventImage = new FlxSprite(_x, _y);
 
-				if (Std.is(_sprite, Array))
+				if (Std.isOfType(_sprite, Array))
 				{
 					eventImage.frames = Paths.getSparrowAtlas(_sprite[0]);
 
