@@ -416,10 +416,10 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 			case 'mall':
 				boyfriend.x += 200;
+				dad.x -= 200;
 
 			case 'mallEvil':
 				boyfriend.x += 320;
-				dad.y -= 80;
 			case 'school':
 				boyfriend.x += 200;
 				boyfriend.y += 220;
@@ -436,17 +436,12 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				// add(evilTrail);
 				// evilTrail.scrollFactor.set(1.1, 1.1);
 
+				dad.x -= 150;
+				dad.y += 50;
 				boyfriend.x += 200;
 				boyfriend.y += 220;
 				gf.x += 180;
 				gf.y += 300;
-		}
-
-		var characterUpdateList:Array<Character> = [boyfriend, dad];
-		for (character in characterUpdateList) {
-			character.x += character.characterData.offsetX;
-			trace('character ${character.curCharacter} scale ${character.scale.y}');
-			character.y += (character.characterData.offsetY - (character.frameHeight * character.scale.y));
 		}
 	}
 

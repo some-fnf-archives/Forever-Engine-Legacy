@@ -226,11 +226,14 @@ class PlayState extends MusicBeatState
 		 */
 
 		// set up characters here too
-		gf = new Character(300, 100, stageBuild.returnGFtype(curStage));
+		gf = new Character();
+		gf.adjustPos = false;
+		gf.setCharacter(300, 100, stageBuild.returnGFtype(curStage));
 		gf.scrollFactor.set(0.95, 0.95);
 
-		dadOpponent = new Character(50, 850, SONG.player2);
-		boyfriend = new Boyfriend(750, 850, SONG.player1);
+		dadOpponent = new Character().setCharacter(50, 850, SONG.player2);
+		boyfriend = new Boyfriend();
+		boyfriend.setCharacter(750, 850, SONG.player1);
 		// if you want to change characters later use setCharacter() instead of new or it will break
 
 		var camPos:FlxPoint = new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
@@ -622,31 +625,14 @@ class PlayState extends MusicBeatState
 				{
 					var char = dadOpponent;
 
-					var getCenterX = char.getMidpoint().x + 150;
+					var getCenterX = char.getMidpoint().x + 100;
 					var getCenterY = char.getMidpoint().y - 100;
-					switch (dadOpponent.curCharacter)
-					{
-						case 'mom':
-							getCenterY = char.getMidpoint().y;
-						case 'senpai':
-							getCenterY = char.getMidpoint().y - 430;
-							getCenterX = char.getMidpoint().x - 100;
-						case 'senpai-angry':
-							getCenterY = char.getMidpoint().y - 430;
-							getCenterX = char.getMidpoint().x - 100;
-					}
 
-					camFollow.setPosition(getCenterX + camDisplaceX, getCenterY + camDisplaceY);
+					camFollow.setPosition(getCenterX + camDisplaceX + char.characterData.camOffsetX,
+						getCenterY + camDisplaceY + char.characterData.camOffsetY);
 
 					if (char.curCharacter == 'mom')
 						vocals.volume = 1;
-
-					/*
-						if (SONG.song.toLowerCase() == 'tutorial')
-						{
-							FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
-						}
-					 */
 				}
 				else
 				{
@@ -668,14 +654,8 @@ class PlayState extends MusicBeatState
 							getCenterY = char.getMidpoint().y - 200;
 					}
 
-					camFollow.setPosition(getCenterX + camDisplaceX, getCenterY + camDisplaceY);
-
-					/*
-						if (SONG.song.toLowerCase() == 'tutorial')
-						{
-							FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
-						}
-					 */
+					camFollow.setPosition(getCenterX + camDisplaceX - char.characterData.camOffsetX,
+						getCenterY + camDisplaceY + char.characterData.camOffsetY);
 				}
 			}
 

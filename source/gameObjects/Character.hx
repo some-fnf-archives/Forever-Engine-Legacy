@@ -38,16 +38,15 @@ class Character extends FNFSprite
 	public var holdTimer:Float = 0;
 
 	public var characterData:CharacterData;
+	public var adjustPos:Bool = true;
 
-	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
+	public function new(?isPlayer:Bool = false)
 	{
 		super(x, y);
 		this.isPlayer = isPlayer;
-
-		setCharacter(x, y, character);
 	}
 
-	public function setCharacter(x:Float, y:Float, character:String)
+	public function setCharacter(x:Float, y:Float, character:String):Character
 	{
 		curCharacter = character;
 		var tex:FlxAtlasFrames;
@@ -176,6 +175,7 @@ class Character extends FNFSprite
 
 				playAnim('idle');
 
+				characterData.camOffsetY = 100;
 			case 'mom-car':
 				tex = Paths.getSparrowAtlas('characters/momCar');
 				frames = tex;
@@ -406,6 +406,9 @@ class Character extends FNFSprite
 				updateHitbox();
 
 				antialiasing = false;
+
+				characterData.camOffsetY = -330;
+				characterData.camOffsetX = -200;
 			case 'senpai-angry':
 				frames = Paths.getSparrowAtlas('characters/senpai');
 				animation.addByPrefix('idle', 'Angry Senpai Idle', 24, false);
@@ -418,6 +421,9 @@ class Character extends FNFSprite
 				updateHitbox();
 
 				antialiasing = false;
+
+				characterData.camOffsetY = -330;
+				characterData.camOffsetX = -200;
 			case 'spirit':
 				frames = Paths.getPackerAtlas('characters/spirit');
 				animation.addByPrefix('idle', "idle spirit_", 24, false);
@@ -432,6 +438,10 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				antialiasing = false;
+
+				characterData.camOffsetY = 50;
+				characterData.camOffsetX = -100;
+
 			case 'parents-christmas':
 				frames = Paths.getSparrowAtlas('characters/mom_dad_christmas_assets');
 				animation.addByPrefix('idle', 'Parent Christmas Idle', 24, false);
@@ -465,11 +475,8 @@ class Character extends FNFSprite
 						animation.addByPrefix(getterArray[i][0], getterArray[i][1].trim(), 24, false);
 					}
 				}
-				else {
-					setCharacter(x, y, 'bf');
-					return; 
-				}
-					
+				else 
+					return setCharacter(x, y, 'bf'); 					
 		}
 
 		// set up offsets cus why not
@@ -497,8 +504,16 @@ class Character extends FNFSprite
 		else if (curCharacter.startsWith('bf'))
 			flipLeftRight();
 
+		if (adjustPos) {
+			x += characterData.offsetX;
+			trace('character ${curCharacter} scale ${scale.y}');
+			y += (characterData.offsetY - (frameHeight * scale.y));
+		}
+
 		this.x = x;
 		this.y = y;
+		
+		return this;
 	}
 
 	function flipLeftRight():Void
