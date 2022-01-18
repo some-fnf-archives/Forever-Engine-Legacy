@@ -390,6 +390,8 @@ class Character extends FNFSprite
 				antialiasing = false;
 				flipX = true;
 
+				characterData.offsetY = 180;
+
 			case 'senpai':
 				frames = Paths.getSparrowAtlas('characters/senpai');
 				animation.addByPrefix('idle', 'Senpai Idle', 24, false);
