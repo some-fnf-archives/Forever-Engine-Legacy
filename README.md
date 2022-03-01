@@ -1,12 +1,11 @@
 # [Forever Engine](https://github.com/Yoshubs/FunkinForever)
-An open-source, modular, optimized, and HOPEFULLY easy to use [Friday Night Funkin'](https://www.newgrounds.com/portal/view/770371) mod engine!
+An open-source, quality of life and performance driven [Friday Night Funkin'](https://www.newgrounds.com/portal/view/770371) mod engine!
 ----------------------------------------------
 
 ![image](https://media.discordapp.net/attachments/916918345255751690/930068118938730526/legacy.png)
 
-Forever Engine is an open source modification of the Friday Night Funkin' engine. Forever Engine is not to be confused with its original name, FUNKIN FOREVER, which is now no longer the name of the engine. The reason this is important will have to do with future plans of ours, so stay tuned if you'd like to hear more about those ;)
 ----------------------------------------------
-The Forever Engine is based off of the aforementioned [Friday Night Funkin' Source](https://github.com/ninjamuffin99/Funkin). It's made to be more accessible and easier to build off of, as well as having a lot of quality of life changes and a much more focused direction on the more traditional feel of rhythm games, all while still keeping the same style and feel of Friday Night Funkin'. I know a lot of source codes are hard to work with for friday night funkin', usually very unoptimised or very unorganised, I wanted to fix both of these issues with Forever Engine and Funkin' Forever in the future. True to the spirit of [Newgrounds](https://www.newgrounds.com), Friday Night Funkin' should be accessible by everyone, both modders and gamers alike, and I wanted to make it my goal to fix a lot of the issues that prevented people from being able to use the base game's engine, as well as create a more polished engines, as I was unhappy with the current existing ones at the time.
+The Friday Night Funkin' Forever Engine is an engine solely based on source code at the moment. Forever Engine is currently in legacy state as it is being rewritten. The legacy version of Forever Engine lacks accessibility and cohesion, something we are currently working to fix with the more newer and updated rewrite. Thank you for your patience.
 
 **FOREVER ENGINE IS ONLY MEANT TO BE USED ON DESKTOP! I AM NOT RESPONSIBLE FOR CRASHES/PROBLEMS WITH HTML5, NOR AM I RESPONSIBLE FOR MAINTAINING HTML5**
 
@@ -25,19 +24,17 @@ I really wanted to make an FNF engine that was easier to work with than any othe
 
 ----------------------------------------------
 
-ADDITIONS IN 0.2.3
+ADDITIONS IN 0.3
 
-- Automatic Freeplay Song Loading
-- Streamlined Storymenu
-- Note Quants & Forever UI (unfinished)
-- Bug Fixes (hopefully) for issues that were recurring
-- ENTIRELY OVERHAULED OPTIONS MENU
-- so much more I forgot about because its 5 am I'm just trying to push an update
+- Rewritten Hold notes 
+- BPM Changes (credit to NebulaZorua)
+- Rewritten Inputs (Thanks ShadowMario for letting me borrow some of your scripts, it was more of an afterthought tbh)
+- Better camera movement (heavily based on Vs. Sonic.exe)
+- Just general stability and changes to make sure Legacy is at the very least not broken before moving on to 1.0
 
 ----------------------------------------------
 CREDITS:
 ----------------------------------------------
-I don't care how big this section gets over time, I will actually keep expanding it. People deserve credit for what they do!
 
 [Yoshubs](https://github.com/Yoshubs) - made the engine. she just so happens to be very fucking stupid for accidentally pushing the martian mixtape source code into forever engine's base github page
 
