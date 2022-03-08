@@ -98,12 +98,6 @@ class Init extends FlxState
 			'When enabled, left and right notes no longer move the camera.',
 			NOT_FORCED
 		],
-		'Use Forever Chart Editor' => [
-			false,
-			Checkmark,
-			'When enabled, uses the custom Forever Engine chart editor!',
-			NOT_FORCED
-		],
 		'Disable Note Splashes' => [
 			false,
 			Checkmark,
