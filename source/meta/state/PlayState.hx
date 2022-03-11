@@ -564,7 +564,7 @@ class PlayState extends MusicBeatState
 				if ((FlxG.keys.justPressed.SEVEN) && (!startingSong))
 				{
 					resetMusic();
-					if (Init.trueSettings.get('Use Forever Chart Editor'))
+					if (FlxG.keys.pressed.SHIFT)
 						Main.switchState(this, new ChartingState());
 					else
 						Main.switchState(this, new OriginalChartingState());
