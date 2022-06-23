@@ -19,9 +19,9 @@ class Overlay extends TextField
 	var memPeak:Float = 0;
 	
 	// display info
-	var displayFps = true;
-	var displayMemory = true;
-	var displayExtra = true;
+	static var displayFps = true;
+	static var displayMemory = true;
+	static var displayExtra = true;
 
 	public function new(x:Float, y:Float)
 	{
