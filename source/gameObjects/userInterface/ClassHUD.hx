@@ -26,11 +26,14 @@ using StringTools;
 class ClassHUD extends FlxTypedGroup<FlxBasic>
 {
 	// set up variables and stuff here
-	var infoBar:FlxText; // small side bar like kade engine that tells you engine info
 	var scoreBar:FlxText;
-
 	var scoreLast:Float = -1;
-	var scoreDisplay:String;
+
+	// fnf mods
+	var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
+
+	var cornerMark:FlxText; // engine mark at the upper right corner
+	var centerMark:FlxText; // song display name and difficulty at the center
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -42,14 +45,15 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	private var timingsMap:Map<String, FlxText> = [];
 
+	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
+	var diffDisplay:String = CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
+	var engineDisplay:String = "FOREVER ENGINE v" + Main.gameVersion;
+
 	// eep
 	public function new()
 	{
 		// call the initializations and stuffs
 		super();
-
-		// fnf mods
-		var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
 
 		// le healthbar setup
 		var barY = FlxG.height * 0.875;
@@ -84,19 +88,21 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		scoreBar.antialiasing = true;
 		add(scoreBar);
 
-		var cornerMark:FlxText = new FlxText(0, 0, 0, 'FOREVER ENGINE v${Main.gameVersion}\n');
+		cornerMark = new FlxText(0, 0, 0, engineDisplay);
 		cornerMark.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		add(cornerMark);
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		cornerMark.antialiasing = true;
 
-		var centerMark:FlxText = new FlxText(0, 0, 0,
-			'- ${CoolUtil.dashToSpace(PlayState.SONG.song) + " [" + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty)}] -\n');
+		centerMark = new FlxText(0, 0, 0, '- ${infoDisplay + " [" + diffDisplay}] -');
 		centerMark.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		add(centerMark);
-		centerMark.y = FlxG.height / 24;
+		if (Init.trueSettings.get('Downscroll'))
+			centerMark.y = (FlxG.height - centerMark.height / 2) - 30;
+		else
+			centerMark.y = (FlxG.height / 24) - 10;
 		centerMark.screenCenter(X);
 		centerMark.antialiasing = true;
 
