@@ -674,7 +674,9 @@ class PlayState extends MusicBeatState
 
 				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
-				// discord stuffs should go here
+				FlxG.sound.play(Paths.sound('fnf_loss_sfx' + GameOverSubstate.stageSuffix));
+
+				Discord.changePresence("Game Over - " + songDetails, detailsSub, iconRPC);
 			}
 
 			// spawn in the notes from the array
