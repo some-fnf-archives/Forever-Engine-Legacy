@@ -99,7 +99,10 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		centerMark.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		add(centerMark);
-		centerMark.y = FlxG.height / 24;
+		if (Init.trueSettings.get('Downscroll'))
+			centerMark.y = (FlxG.height - centerMark.height / 2) - 30;
+		else
+			centerMark.y = (FlxG.height / 24) - 10;
 		centerMark.screenCenter(X);
 		centerMark.antialiasing = true;
 
