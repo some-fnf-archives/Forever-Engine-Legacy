@@ -674,7 +674,7 @@ class PlayState extends MusicBeatState
 
 				new FlxTimer().start(0.1, function(soundTime:FlxTimer)
 				{
-					FlxG.sound.play(Paths.sound('fnf_loss_sfx'));
+					FlxG.sound.play(Paths.sound('fnf_loss_sfx' + GameOverSubstate.stageSuffix));
 				});
 
 				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
