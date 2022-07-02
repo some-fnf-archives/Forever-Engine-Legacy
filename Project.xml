@@ -29,9 +29,21 @@
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
+
 	<source path="source" />
-	<assets path="assets" />
+	<assets path="assets" library="assets" />
+
+	<!--
+		if you ever want to preload specific assets, add them here as an asset library
+		keep in mind that if you don't want said assets to be cleared by the game's paths system
+		simply add the files to Paths.hx, on the dumpExclusions array
+	-->
+
+	<assets path="assets/songs" library="songs"/>
+	<assets path="assets/music" library="music" preload="true"/>
+
 	<assets path="FE-CrashDialog.exe" type="template" if="windows release" />
+
 	<!--<assets path="mods" />-->
 
 	<!-- _______________________________ Libraries ______________________________ -->

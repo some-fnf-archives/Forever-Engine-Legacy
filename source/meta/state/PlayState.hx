@@ -534,10 +534,10 @@ class PlayState extends MusicBeatState
 			// pause the game if the game is allowed to pause and enter is pressed
 			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 			{
+				paused = true;
 				// update drawing stuffs
 				persistentUpdate = false;
 				persistentDraw = true;
-				paused = true;
 
 				// open pause substate
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
@@ -663,12 +663,26 @@ class PlayState extends MusicBeatState
 			for (hud in allUIs)
 				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
 
+			// song events
+
+			if (curBeat % 8 == 7 && curSong.toLowerCase() == 'bopeebo')
+			{
+				doThenDance('hey', boyfriend);
+			}
+
+			// Controls
+
+			// RESET = Quick Game Over Screen
+			if (controls.RESET && !startingSong && !isStoryMode) {
+				health = 0;
+			}
+
 			if (health <= 0 && startedCountdown)
 			{
+				paused = true;
 				// startTimer.active = false;
 				persistentUpdate = false;
 				persistentDraw = false;
-				paused = true;
 
 				resetMusic();
 
@@ -1408,6 +1422,17 @@ class PlayState extends MusicBeatState
 		if (songMusic.time >= Conductor.songPosition + 20 || songMusic.time <= Conductor.songPosition - 20)
 			resyncVocals();
 		//*/
+	}
+
+	private function doThenDance(anim:String, char:Character, time:Float = null, force:Bool = false, reverse:Bool = false, frame:Int = 0):Void
+	{
+		if (char.animOffsets.exists(anim))
+			char.playAnim(anim, force, reverse, frame);
+
+		new FlxTimer().start((time == null ? 0.6 : time), function(danceTimer:FlxTimer)
+		{
+			char.dance();
+		});
 	}
 
 	private function charactersDance(curBeat:Int)
