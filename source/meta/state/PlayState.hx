@@ -1463,6 +1463,35 @@ class PlayState extends MusicBeatState
 
 		// stage stuffs
 		stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
+
+		if (curSong.toLowerCase() == 'bopeebo')
+		{
+			switch (curBeat)
+			{
+				case 128, 129, 130:
+					vocals.volume = 0;
+			}
+		}
+
+		if (curSong.toLowerCase() == 'fresh')
+		{
+			switch (curBeat)
+			{
+				case 16 | 80:
+					gfSpeed = 2;
+				case 48 | 112:
+					gfSpeed = 1;
+			}
+		}
+
+		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200
+			&& !Init.trueSettings.get('Reduced Movements')
+			&& FlxG.camera.zoom < 1.35)
+		{
+			FlxG.camera.zoom += 0.015;
+			for (hud in allUIs)
+				hud.zoom += 0.03;
+		}
 	}
 
 	//
