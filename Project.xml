@@ -30,14 +30,14 @@
 
 	<set name="BUILD_DIR" value="export" />
 
-	<source path="source" />
-	<assets path="assets" />
-
 	<!--
-		if you ever want to preload specific assets, add them here
-		keep in mind that if you don't want said assets to be cleared by the game's paths system
+		if you ever want to preload specific asset folders, add them here
+		keep in mind that if you don't want said asset folders to be cleared by the game's paths system
 		simply add the files to Paths.hx, on the dumpExclusions array
 	-->
+
+	<source path="source" />
+	<assets path="assets" />
 
 	<assets path="assets/songs"/>
 	<assets path="assets/music" preload="true"/>
