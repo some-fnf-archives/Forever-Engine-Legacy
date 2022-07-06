@@ -12,12 +12,11 @@ import openfl.text.TextFormat;
 	Based on this tutorial:
 	https://keyreal-code.github.io/haxecoder-tutorials/17_displaying_fps_and_memory_usage_using_openfl.html
 **/
-
 class Overlay extends TextField
 {
 	var times:Array<Float> = [];
 	var memPeak:Float = 0;
-	
+
 	// display info
 	static var displayFps = true;
 	static var displayMemory = true;
@@ -69,13 +68,17 @@ class Overlay extends TextField
 
 		if (!displayFps)
 			visible = false;
-		else {
+		else
+		{
 			visible = true;
-			
-			text = times.length + " FPS\n" // Framerate
-			+ (displayExtra ? Main.mainClassState + "\n" : '') // Current Game State
-			+ (displayMemory ? mem + ' ${intervalArray[memInterval]} / ' // Current Memory Usage
-			+ memPeak + ' ${intervalArray[memPeakInterval]}\n' : ''); // Total Memory Usage
+
+			text = times.length
+				+ " FPS\n" // Framerate
+				+ (displayExtra ? Main.mainClassState + "\n" : '') // Current Game State
+				+ (displayMemory ? mem
+					+ ' ${intervalArray[memInterval]} / ' // Current Memory Usage
+					+ memPeak
+					+ ' ${intervalArray[memPeakInterval]}\n' : ''); // Total Memory Usage
 		}
 	}
 

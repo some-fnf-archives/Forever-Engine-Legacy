@@ -69,7 +69,7 @@ class CustomTitlescreen extends MusicBeatState
 		if (!initialized)
 		{
 			///*
-			#if !html5
+			#if desktop
 			Discord.changePresence('TITLE SCREEN', 'Main Menu');
 			#end
 
@@ -206,7 +206,7 @@ class CustomTitlescreen extends MusicBeatState
 			{
 				// Check if version is outdated
 
-				//var version:String = "v" + Application.current.meta.get('version');
+				// var version:String = "v" + Application.current.meta.get('version');
 				Main.switchState(this, new MainMenuState());
 				// }
 			});
@@ -281,7 +281,7 @@ class CustomTitlescreen extends MusicBeatState
 				addMoreText('Tsuraran');
 			case 12:
 				addMoreText('FlopDoodle');
-			case 16: 
+			case 16:
 				addMoreText('');
 				addMoreText('PRESENT');
 
