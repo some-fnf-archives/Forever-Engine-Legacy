@@ -66,19 +66,13 @@ class Overlay extends TextField
 			memPeakInterval = memInterval;
 		}
 
-		if (!displayFps)
-			visible = false;
-		else
+		if (visible)
 		{
-			visible = true;
-
-			text = times.length
-				+ " FPS\n" // Framerate
-				+ (displayExtra ? Main.mainClassState + "\n" : '') // Current Game State
-				+ (displayMemory ? mem
-					+ ' ${intervalArray[memInterval]} / ' // Current Memory Usage
-					+ memPeak
-					+ ' ${intervalArray[memPeakInterval]}\n' : ''); // Total Memory Usage
+			text = '' // set up the text itself
+			+ (displayFps ? times.length + " FPS\n" : '') // Framerate
+			+ (displayExtra ? Main.mainClassState + "\n" : '') // Current Game State
+			+ (displayMemory ? mem + ' ${intervalArray[memInterval]} / ' // Current Memory Usage
+			+ memPeak + ' ${intervalArray[memPeakInterval]}\n' : ''); // Total Memory Usage
 		}
 	}
 
