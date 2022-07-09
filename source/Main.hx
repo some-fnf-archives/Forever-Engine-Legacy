@@ -115,7 +115,7 @@ class Main extends Sprite
 
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
-		#if html5
+		#if (html5 || neko)
 		framerate = 60;
 		#end
 
@@ -148,7 +148,7 @@ class Main extends Sprite
 		// addChild(new FPS(10, 3, 0xFFFFFF));
 
 		// begin the discord rich presence
-		#if desktop
+		#if DISCORD_RPC
 		Discord.initializeRPC();
 		Discord.changePresence('');
 		#end
