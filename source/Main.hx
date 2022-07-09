@@ -31,7 +31,6 @@ import sys.io.Process;
 // at least that's how I think it works. I could be stupid!
 class Main extends Sprite
 {
-
 	// class action variables
 	public static var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
 	public static var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
@@ -139,7 +138,7 @@ class Main extends Sprite
 		}
 
 		FlxTransitionableState.skipNextTransIn = true;
-		
+
 		// here we set up the base game
 		var gameCreate:FlxGame;
 		gameCreate = new FlxGame(gameWidth, gameHeight, mainClassState, zoom, framerate, framerate, skipSplash);
@@ -149,7 +148,7 @@ class Main extends Sprite
 		// addChild(new FPS(10, 3, 0xFFFFFF));
 
 		// begin the discord rich presence
-		#if !html5
+		#if desktop
 		Discord.initializeRPC();
 		Discord.changePresence('');
 		#end
@@ -178,14 +177,15 @@ class Main extends Sprite
 		if (!FlxTransitionableState.skipNextTransIn)
 		{
 			curState.openSubState(new FNFTransition(0.35, false));
-			FNFTransition.finishCallback = function() {
+			FNFTransition.finishCallback = function()
+			{
 				FlxG.switchState(target);
 			};
 			return trace('changed state');
 		}
 		FlxTransitionableState.skipNextTransIn = false;
 		// load the state
-		FlxG.switchState(target);		
+		FlxG.switchState(target);
 	}
 
 	public static function updateFramerate(newFramerate:Int)
