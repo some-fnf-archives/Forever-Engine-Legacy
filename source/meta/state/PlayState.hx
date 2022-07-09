@@ -97,6 +97,8 @@ class PlayState extends MusicBeatState
 
 	public static var misses:Int = 0;
 
+	public static var deaths:Int = 0;
+
 	public var generatedMusic:Bool = false;
 
 	private var startingSong:Bool = false;
@@ -688,6 +690,8 @@ class PlayState extends MusicBeatState
 				persistentDraw = false;
 
 				resetMusic();
+
+				deaths += 1;
 
 				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
@@ -1644,6 +1648,8 @@ class PlayState extends MusicBeatState
 		vocals.volume = 0;
 		if (SONG.validScore)
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
+
+		deaths = 0;
 
 		if (!isStoryMode)
 		{

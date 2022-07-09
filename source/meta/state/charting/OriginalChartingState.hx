@@ -91,6 +91,9 @@ class OriginalChartingState extends MusicBeatState
 	var leftIcon:HealthIcon;
 	var rightIcon:HealthIcon;
 
+	var playTicksBf:FlxUICheckBox = null;
+	var playTicksDad:FlxUICheckBox = null;
+
 	override function create()
 	{
 		super.create();
@@ -251,6 +254,12 @@ class OriginalChartingState extends MusicBeatState
 
 		player2DropDown.selectedLabel = _song.player2;
 
+		playTicksBf = new FlxUICheckBox(check_mute_inst.x, check_mute_inst.y + 25, null, null, 'Play Hitsounds (Boyfriend - in editor)', 100);
+		playTicksBf.checked = false;
+
+		playTicksDad = new FlxUICheckBox(check_mute_inst.x + 120, playTicksBf.y, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
+		playTicksDad.checked = false;
+
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
 		tab_group_song.add(UI_songTitle);
@@ -265,6 +274,8 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_song.add(stepperSpeed);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(player2DropDown);
+		tab_group_song.add(playTicksBf);
+		tab_group_song.add(playTicksDad);
 
 		UI_box.addGroup(tab_group_song);
 		UI_box.scrollFactor.set();
@@ -500,12 +511,35 @@ class OriginalChartingState extends MusicBeatState
 		return daPos;
 	}
 
+	var lastSongPos:Null<Float> = null;
 	override function update(elapsed:Float)
 	{
 		curStep = recalculateSteps();
 
 		Conductor.songPosition = songMusic.time;
 		_song.song = typingShit.text;
+
+		// real thanks for the help with this ShadowMario, you are the best -Ghost
+		var playedSound:Array<Bool> = [];
+		for (i in 0...8) {
+			playedSound.push(false);
+		}
+		curRenderedNotes.forEachAlive(function(note:Note)
+        {
+            if (note.strumTime < songMusic.time)
+            {
+				var data:Int = note.noteData % 4;
+
+				if (songMusic.playing && !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos)
+                {
+					if ((playTicksBf.checked) && (note.mustPress) || (playTicksDad.checked) && (!note.mustPress))
+					{
+						FlxG.sound.play(Paths.sound('soundNoteTick'));
+						playedSound[data] = true;
+					}
+                }
+            }
+        });
 
 		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps));
 
@@ -698,8 +732,14 @@ class OriginalChartingState extends MusicBeatState
 			+ " / "
 			+ Std.string(FlxMath.roundDecimal(songMusic.length / 1000, 2))
 			+ "\nSection: "
-			+ curSection;
+			+ curSection
+			+ "\nBeat: "
+			+ curBeat
+			+ "\nStep: "
+			+ curStep;
 		super.update(elapsed);
+
+		lastSongPos = Conductor.songPosition;
 	}
 
 	function changeNoteSustain(value:Float):Void
@@ -822,15 +862,15 @@ class OriginalChartingState extends MusicBeatState
 
 	function updateHeads():Void
 	{
-		if (check_mustHitSection.checked)
+		if (!_song.notes[curSection].mustHitSection)
 		{
-			leftIcon.animation.play(_song.player1);
-			rightIcon.animation.play(_song.player2);
+			leftIcon.setPosition(gridBG.width / 2, -100);
+			rightIcon.setPosition(0, -100);
 		}
 		else
 		{
-			leftIcon.animation.play(_song.player2);
-			rightIcon.animation.play(_song.player1);
+			leftIcon.setPosition(0, -100);
+			rightIcon.setPosition(gridBG.width / 2, -100);
 		}
 	}
 
@@ -900,6 +940,9 @@ class OriginalChartingState extends MusicBeatState
 			note.updateHitbox();
 			note.x = Math.floor(daNoteInfo * GRID_SIZE);
 			note.y = Math.floor(getYfromStrum((daStrumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
+			note.mustPress = _song.notes[curSection].mustHitSection;
+
+			if (i[1] > 3) note.mustPress = !note.mustPress;
 
 			curRenderedNotes.add(note);
 
@@ -947,12 +990,21 @@ class OriginalChartingState extends MusicBeatState
 
 	function deleteNote(note:Note):Void
 	{
-		for (i in _song.notes[curSection].sectionNotes)
+		var data:Null<Int> = note.noteData;
+
+		if (data > -1 && note.mustPress != _song.notes[curSection].mustHitSection)
+			data += 4;
+
+		if (data > -1)
 		{
-			if (i[0] == note.strumTime && i[1] % 4 == note.noteData)
+			for (i in _song.notes[curSection].sectionNotes)
 			{
-				FlxG.log.add('FOUND EVIL NUMBER');
-				_song.notes[curSection].sectionNotes.remove(i);
+				if (i[0] == note.strumTime && i[1] == data)
+				{
+					FlxG.log.add('FOUND EVIL NUMBER');
+					_song.notes[curSection].sectionNotes.remove(i);
+					break;
+				}
 			}
 		}
 
