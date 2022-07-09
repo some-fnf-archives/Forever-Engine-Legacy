@@ -1182,10 +1182,9 @@ class PlayState extends MusicBeatState
 		super.onFocus();
 	}
 
-	override
-	public function onFocusLost():Void
+	override public function onFocusLost():Void
 	{
-		if (canPause && !paused) pauseGame();
+		if (canPause && !paused && !Init.trueSettings.get('Auto Pause')) pauseGame();
 		super.onFocusLost();
 	}
 
