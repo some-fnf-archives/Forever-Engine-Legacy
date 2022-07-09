@@ -45,7 +45,7 @@ class OptionsMenuState extends MusicBeatState
 
 		// NOTE : Make sure to check Init.hx if you are trying to add options.
 
-		#if desktop
+		#if DISCORD_RPC
 		Discord.changePresence('OPTIONS MENU', 'Main Menu');
 		#end
 
@@ -75,10 +75,10 @@ class OptionsMenuState extends MusicBeatState
 					['Meta Settings', null],
 					['', null],
 					['Auto Pause', getFromOption],
-					["Framerate Cap", getFromOption],
+					#if !neko ["Framerate Cap", getFromOption], #end
 					['FPS Counter', getFromOption],
 					['Memory Counter', getFromOption],
-					['Debug Info', getFromOption],
+					#if !neko ['Debug Info', getFromOption], #end
 				]
 			],
 			'appearance' => [

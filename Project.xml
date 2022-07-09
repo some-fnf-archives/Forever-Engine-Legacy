@@ -26,6 +26,10 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
 
+	<!-- _____________________________ Custom Defines ____________________________ -->
+	
+	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
@@ -55,7 +59,7 @@
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="polymod"/>
-	<haxelib name="discord_rpc"/>
+	<haxelib name="discord_rpc" if="DISCORD_RPC"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

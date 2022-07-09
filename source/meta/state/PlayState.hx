@@ -97,6 +97,8 @@ class PlayState extends MusicBeatState
 
 	public static var misses:Int = 0;
 
+	public static var deaths:Int = 0;
+
 	public var generatedMusic:Bool = false;
 
 	private var startingSong:Bool = false;
@@ -689,11 +691,15 @@ class PlayState extends MusicBeatState
 
 				resetMusic();
 
+				deaths += 1;
+
 				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
 				FlxG.sound.play(Paths.sound('fnf_loss_sfx' + GameOverSubstate.stageSuffix));
 
+				#if DISCORD_RPC
 				Discord.changePresence("Game Over - " + songDetails, detailsSub, iconRPC);
+				#end
 			}
 
 			// spawn in the notes from the array
@@ -1190,7 +1196,7 @@ class PlayState extends MusicBeatState
 
 	public static function updateRPC(pausedRPC:Bool)
 	{
-		#if desktop
+		#if DISCORD_RPC
 		var displayRPC:String = (pausedRPC) ? detailsPausedText : songDetails;
 
 		if (health > 0)
@@ -1644,6 +1650,8 @@ class PlayState extends MusicBeatState
 		vocals.volume = 0;
 		if (SONG.validScore)
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
+
+		deaths = 0;
 
 		if (!isStoryMode)
 		{

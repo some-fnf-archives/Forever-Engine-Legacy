@@ -69,7 +69,7 @@ class TitleState extends MusicBeatState
 		if (!initialized)
 		{
 			///*
-			#if desktop
+			#if DISCORD_RPC
 			Discord.changePresence('TITLE SCREEN', 'Main Menu');
 			#end
 

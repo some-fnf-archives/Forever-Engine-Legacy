@@ -38,7 +38,7 @@ class ChartLoader
 
 					for (songNotes in section.sectionNotes)
 					{
-						var daStrumTime:Float = songNotes[0] - Init.trueSettings['Offset']; // - | late, + | early
+						var daStrumTime:Float = #if !neko songNotes[0] - Init.trueSettings['Offset'] /* - | late, + | early */ #else songNotes[0] #end;
 						var daNoteData:Int = Std.int(songNotes[1] % 4);
 						// define the note's animation (in accordance to the original game)!
 						var daNoteAlt:Float = 0;
