@@ -534,14 +534,7 @@ class PlayState extends MusicBeatState
 			// pause the game if the game is allowed to pause and enter is pressed
 			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 			{
-				// update drawing stuffs
-				persistentUpdate = false;
-				persistentDraw = true;
-				paused = true;
-
-				// open pause substate
-				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-				updateRPC(true);
+				pauseGame();
 			}
 
 			// make sure you're not cheating lol
@@ -663,12 +656,19 @@ class PlayState extends MusicBeatState
 			for (hud in allUIs)
 				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
 
+			// Controls
+
+			// RESET = Quick Game Over Screen
+			if (controls.RESET && !startingSong && !isStoryMode) {
+				health = 0;
+			}
+
 			if (health <= 0 && startedCountdown)
 			{
+				paused = true;
 				// startTimer.active = false;
 				persistentUpdate = false;
 				persistentDraw = false;
-				paused = true;
 
 				resetMusic();
 
@@ -1092,6 +1092,22 @@ class PlayState extends MusicBeatState
 		//
 	}
 
+	public function pauseGame()
+	{
+		// pause discord rpc
+		updateRPC(true);
+
+		// pause game
+		paused = true;
+
+		// update drawing stuffs
+		persistentUpdate = false;
+		persistentDraw = true;
+
+		// open pause substate
+		openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+	}
+
 	override public function onFocus():Void
 	{
 		if (!paused)
@@ -1101,7 +1117,7 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
-		updateRPC(true);
+		if (canPause && !paused) pauseGame();
 		super.onFocusLost();
 	}
 
@@ -1456,6 +1472,35 @@ class PlayState extends MusicBeatState
 
 		// stage stuffs
 		stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
+
+		if (curSong.toLowerCase() == 'bopeebo')
+		{
+			switch (curBeat)
+			{
+				case 128, 129, 130:
+					vocals.volume = 0;
+			}
+		}
+
+		if (curSong.toLowerCase() == 'fresh')
+		{
+			switch (curBeat)
+			{
+				case 16 | 80:
+					gfSpeed = 2;
+				case 48 | 112:
+					gfSpeed = 1;
+			}
+		}
+
+		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200
+			&& !Init.trueSettings.get('Reduced Movements')
+			&& FlxG.camera.zoom < 1.35)
+		{
+			FlxG.camera.zoom += 0.015;
+			for (hud in allUIs)
+				hud.zoom += 0.03;
+		}
 	}
 
 	//
@@ -1512,6 +1557,8 @@ class PlayState extends MusicBeatState
 			updateRPC(false);
 			// */
 		}
+
+		Paths.clearUnusedMemory();
 
 		super.closeSubState();
 	}
