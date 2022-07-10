@@ -118,7 +118,7 @@ class OptionsSubstate extends MusicBeatSubState
 			if (arrayTemp[i] == null)
 				arrayTemp[i] = '';
 			// generate key options lol
-			var optionsText:Alphabet = new Alphabet(0, 0, arrayTemp[i].replace("_", " "), true, false);
+			var optionsText:Alphabet = new Alphabet(0, 0, arrayTemp[i], true, false);
 			optionsText.screenCenter();
 			optionsText.y += (90 * (i - (arrayTemp.length / 2)));
 			optionsText.targetY = i;
