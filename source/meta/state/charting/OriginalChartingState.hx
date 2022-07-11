@@ -409,6 +409,7 @@ class OriginalChartingState extends MusicBeatState
 		{
 			ForeverTools.killMusic([songMusic, vocals]);
 			loadSong(daSong);
+			changeSection();
 		};
 		//
 	}
