@@ -234,6 +234,9 @@ class PlayState extends MusicBeatState
 		stageBuild.repositionPlayers(curStage, boyfriend, dadOpponent, gf);
 		stageBuild.dadPosition(curStage, boyfriend, dadOpponent, gf, camPos);
 
+		if (SONG.assetModifier != null && SONG.assetModifier.length > 1)
+			assetModifier = SONG.assetModifier;
+
 		changeableSkin = Init.trueSettings.get("UI Skin");
 		if ((curStage.startsWith("school")) && ((determinedChartType == "FNF")))
 			assetModifier = 'pixel';

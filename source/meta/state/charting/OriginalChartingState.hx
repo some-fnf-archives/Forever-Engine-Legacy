@@ -238,6 +238,7 @@ class OriginalChartingState extends MusicBeatState
 		stepperBPM.name = 'song_bpm';
 
 		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('characterList'));
+		var assetModifiers:Array<String> = CoolUtil.coolTextFile(Paths.txt('assetModifiersList'));
 
 		var player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
@@ -253,6 +254,18 @@ class OriginalChartingState extends MusicBeatState
 		});
 
 		player2DropDown.selectedLabel = _song.player2;
+
+		var player2DropDown = new FlxUIDropDownMenu(140, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
+		{
+			_song.player2 = characters[Std.parseInt(character)];
+			updateHeads();
+		});
+
+		var assetModifierDropDown = new FlxUIDropDownMenu(player2DropDown.x, player2DropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(assetModifiers, true), function(character:String)
+		{
+			_song.assetModifier = assetModifiers[Std.parseInt(character)];
+		});
+		assetModifierDropDown.selectedLabel = _song.assetModifier;
 
 		playTicksBf = new FlxUICheckBox(check_mute_inst.x, check_mute_inst.y + 25, null, null, 'Play Hitsounds (Boyfriend - in editor)', 100);
 		playTicksBf.checked = false;
@@ -276,6 +289,7 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_song.add(player2DropDown);
 		tab_group_song.add(playTicksBf);
 		tab_group_song.add(playTicksDad);
+		tab_group_song.add(assetModifierDropDown);
 
 		UI_box.addGroup(tab_group_song);
 		UI_box.scrollFactor.set();

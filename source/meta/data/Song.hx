@@ -20,6 +20,7 @@ typedef SwagSong =
 	var player2:String;
 	var stage:String;
 	var noteSkin:String;
+	var assetModifier:String;
 	var validScore:Bool;
 }
 
