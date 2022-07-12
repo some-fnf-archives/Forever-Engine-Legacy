@@ -238,7 +238,6 @@ class OriginalChartingState extends MusicBeatState
 		stepperBPM.name = 'song_bpm';
 
 		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('characterList'));
-		var assetModifiers:Array<String> = CoolUtil.coolTextFile(Paths.txt('assetModifiersList'));
 
 		var player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
@@ -253,6 +252,8 @@ class OriginalChartingState extends MusicBeatState
 			updateHeads();
 		});
 		player2DropDown.selectedLabel = _song.player2;
+
+		var assetModifiers:Array<String> = CoolUtil.returnAssetsLibrary('UI/default');
 
 		var assetModifierDropDown = new FlxUIDropDownMenu(player2DropDown.x, player2DropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(assetModifiers, true), function(character:String)
 		{
