@@ -1609,9 +1609,18 @@ class PlayState extends MusicBeatState
 				//	trace('nulled song finished');
 			}
 
-			// trace('ui shit break');
+			/* trace('ui shit break');
 			if ((startTimer != null) && (!startTimer.finished))
-				startTimer.active = false;
+				startTimer.active = false;*/
+			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) {
+				if (!tmr.finished)
+					tmr.active = false;
+			});
+
+			FlxTween.globalManager.forEach(function(twn:FlxTween) {
+				if (!twn.finished)
+					twn.active = false;
+			});
 		}
 
 		// trace('open substate');
@@ -1626,8 +1635,18 @@ class PlayState extends MusicBeatState
 			if (songMusic != null && !startingSong)
 				resyncVocals();
 
-			if ((startTimer != null) && (!startTimer.finished))
-				startTimer.active = true;
+			//if ((startTimer != null) && (!startTimer.finished))
+			//	startTimer.active = true;
+			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) {
+				if (!tmr.finished)
+					tmr.active = true;
+			});
+
+			FlxTween.globalManager.forEach(function(twn:FlxTween) {
+				if (!twn.finished)
+					twn.active = true;
+			});
+
 			paused = false;
 
 			///*
