@@ -15,7 +15,7 @@ import openfl.text.TextFormat;
 class Overlay extends TextField
 {
 	var times:Array<Float> = [];
-	var memPeak:Float = 0;
+	var memPeak:UInt = 0;
 
 	// display info
 	static var displayFps = true;
