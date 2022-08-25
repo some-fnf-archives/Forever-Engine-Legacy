@@ -667,7 +667,7 @@ class PlayState extends MusicBeatState
 			var lerpVal = (elapsed * 2.4) * cameraSpeed;
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
-			var easeLerp = 0.95;
+			var easeLerp = 1 - (0.05 * (60 / FlxG.stage.window.frameRate));
 			// camera stuffs
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom + forceZoom[0], FlxG.camera.zoom, easeLerp);
 			for (hud in allUIs)
