@@ -28,6 +28,9 @@ The legacy version of Forever Engine lacks accessibility and cohesion, something
 
 AND MORE!
 
+## Additions in v0.3.1:
+* Changed UI to resemble Forever Engine Rewrite's UI (it's just better)
+
 ## Additions in v0.3:
 * Rewritten Hold Notes;
 * BPM Changes
