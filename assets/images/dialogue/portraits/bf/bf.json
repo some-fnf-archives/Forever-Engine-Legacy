@@ -6,6 +6,9 @@
         "smug": "Smug Talk"
     },
     "position": "right",
-
-    "sounds": ["BF_1", "BF_2", "BF_3"]
+    "sounds": [
+        "BF_1",
+        "BF_2",
+        "BF_3"
+    ]
 }
