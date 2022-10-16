@@ -270,7 +270,8 @@ class OriginalChartingState extends MusicBeatState
 
 		var assetModifiers:Array<String> = CoolUtil.returnAssetsLibrary('UI/default');
 
-		var assetModifierDropDown = new FlxUIDropDownMenu(player2DropDown.x, player2DropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(assetModifiers, true), function(character:String)
+		var assetModifierDropDown = new FlxUIDropDownMenu(player2DropDown.x, player2DropDown.y + 40,
+			FlxUIDropDownMenu.makeStrIdLabelArray(assetModifiers, true), function(character:String)
 		{
 			_song.assetModifier = assetModifiers[Std.parseInt(character)];
 		});
@@ -537,6 +538,7 @@ class OriginalChartingState extends MusicBeatState
 	}
 
 	var lastSongPos:Null<Float> = null;
+
 	override function update(elapsed:Float)
 	{
 		curStep = recalculateSteps();
@@ -546,25 +548,26 @@ class OriginalChartingState extends MusicBeatState
 
 		// real thanks for the help with this ShadowMario, you are the best -Ghost
 		var playedSound:Array<Bool> = [];
-		for (i in 0...8) {
+		for (i in 0...8)
+		{
 			playedSound.push(false);
 		}
 		curRenderedNotes.forEachAlive(function(note:Note)
-        {
-            if (note.strumTime < songMusic.time)
-            {
+		{
+			if (note.strumTime < songMusic.time)
+			{
 				var data:Int = note.noteData % 4;
 
 				if (songMusic.playing && !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos)
-                {
+				{
 					if ((playTicksBf.checked) && (note.mustPress) || (playTicksDad.checked) && (!note.mustPress))
 					{
 						FlxG.sound.play(Paths.sound('soundNoteTick'));
 						playedSound[data] = true;
 					}
-                }
-            }
-        });
+				}
+			}
+		});
 
 		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps));
 
@@ -967,7 +970,8 @@ class OriginalChartingState extends MusicBeatState
 			note.y = Math.floor(getYfromStrum((daStrumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
 			note.mustPress = _song.notes[curSection].mustHitSection;
 
-			if (i[1] > 3) note.mustPress = !note.mustPress;
+			if (i[1] > 3)
+				note.mustPress = !note.mustPress;
 
 			curRenderedNotes.add(note);
 

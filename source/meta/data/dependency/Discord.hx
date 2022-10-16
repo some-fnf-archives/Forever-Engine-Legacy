@@ -16,7 +16,7 @@ class Discord
 	public static function initializeRPC()
 	{
 		DiscordRpc.start({
-			clientID: "879525344128925717",
+			clientID: "1031181637863620708",
 			onReady: onReady,
 			onError: onError,
 			onDisconnected: onDisconnected
@@ -32,8 +32,8 @@ class Discord
 		DiscordRpc.presence({
 			details: "",
 			state: null,
-			largeImageKey: 'iconog',
-			largeImageText: "Forever Engine"
+			largeImageKey: 'fel-logo',
+			largeImageText: "Forever Engine Legacy"
 		});
 	}
 
@@ -59,8 +59,8 @@ class Discord
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: 'iconog',
-			largeImageText: "Forever Engine",
+			largeImageKey: 'fel-logo',
+			largeImageText: "Forever Engine Legacy",
 			smallImageKey: smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp: Std.int(startTimestamp / 1000),

@@ -7,7 +7,6 @@
 		"editor.codeActionsOnSave": {
 			"source.sortImports": true
 		}
-		
 	},
 	"haxe.enableExtendedIndentation": true,
 	"restructuredtext.confPath": "${workspaceFolder}\\docs"

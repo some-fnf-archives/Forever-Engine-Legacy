@@ -30,13 +30,19 @@
     --input-background-color: #333537;
     --input-focus-border-color: #5f8cff;
 
-    --search-input-background-color: #43464a; /* derived from --input-background-color */
-    --search-match-color: #52b4ff; /* derived from --link-color */
-    --search-match-background-color: #414c56; /* derived from --link-color */
+    --search-input-background-color: #43464a;
+    /* derived from --input-background-color */
+    --search-match-color: #52b4ff;
+    /* derived from --link-color */
+    --search-match-background-color: #414c56;
+    /* derived from --link-color */
     --search-active-color: #202326;
-    --search-credits-background-color: #202123; /* derived from --navbar-background-color */
-    --search-credits-color: #6b6b6b; /* derived from --footer-color */
-    --search-credits-link-color: #628fb1; /* derived from --link-color */
+    --search-credits-background-color: #202123;
+    /* derived from --navbar-background-color */
+    --search-credits-color: #6b6b6b;
+    /* derived from --footer-color */
+    --search-credits-link-color: #628fb1;
+    /* derived from --link-color */
 }
 
 /* Center page (thank you godot-docs) */
@@ -46,10 +52,12 @@
         max-width: 1100px;
         margin: 0 auto;
     }
+
     .wy-nav-side {
         /* Side navbar */
         left: inherit;
     }
+
     .rst-versions {
         /* Doc versions */
         left: inherit;

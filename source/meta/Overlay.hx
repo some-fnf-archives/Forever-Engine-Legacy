@@ -39,6 +39,7 @@ class Overlay extends TextField
 	}
 
 	static final intervalArray:Array<String> = ['B', 'KB', 'MB', 'GB', 'TB'];
+
 	public static function getInterval(num:UInt):String
 	{
 		var size:Float = num;
@@ -61,8 +62,9 @@ class Overlay extends TextField
 			times.shift();
 
 		var mem = System.totalMemory;
-		if (mem > memPeak) memPeak = mem;
-		
+		if (mem > memPeak)
+			memPeak = mem;
+
 		if (visible)
 		{
 			text = '' // set up the text itself

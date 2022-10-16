@@ -681,7 +681,8 @@ class PlayState extends MusicBeatState
 			// Controls
 
 			// RESET = Quick Game Over Screen
-			if (controls.RESET && !startingSong && !isStoryMode) {
+			if (controls.RESET && !startingSong && !isStoryMode)
+			{
 				health = 0;
 			}
 
@@ -724,19 +725,9 @@ class PlayState extends MusicBeatState
 	// maybe theres a better place to put this, idk -saw
 	function controllerInput()
 	{
-		var justPressArray:Array<Bool> = [
-			controls.LEFT_P,
-			controls.DOWN_P,
-			controls.UP_P,
-			controls.RIGHT_P
-		];
+		var justPressArray:Array<Bool> = [controls.LEFT_P, controls.DOWN_P, controls.UP_P, controls.RIGHT_P];
 
-		var justReleaseArray:Array<Bool> = [
-			controls.LEFT_R,
-			controls.DOWN_R,
-			controls.UP_R,
-			controls.RIGHT_R
-		];
+		var justReleaseArray:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R];
 
 		if (justPressArray.contains(true))
 		{
@@ -927,8 +918,7 @@ class PlayState extends MusicBeatState
 		// reset bf's animation
 		var holdControls:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT];
 		if ((boyfriend != null && boyfriend.animation != null)
-			&& (boyfriend.holdTimer > Conductor.stepCrochet * (4 / 1000)
-				&& (!holdControls.contains(true) || boyfriendStrums.autoplay)))
+			&& (boyfriend.holdTimer > Conductor.stepCrochet * (4 / 1000) && (!holdControls.contains(true) || boyfriendStrums.autoplay)))
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 				boyfriend.dance();
@@ -1167,7 +1157,6 @@ class PlayState extends MusicBeatState
 		//
 	}
 
-
 	public function pauseGame()
 	{
 		// pause discord rpc
@@ -1193,7 +1182,8 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
-		if (canPause && !paused && !Init.trueSettings.get('Auto Pause')) pauseGame();
+		if (canPause && !paused && !Init.trueSettings.get('Auto Pause'))
+			pauseGame();
 		super.onFocusLost();
 	}
 
@@ -1269,8 +1259,8 @@ class PlayState extends MusicBeatState
 		for (scoreInt in 0...stringArray.length)
 		{
 			// numScore.loadGraphic(Paths.image('UI/' + pixelModifier + 'num' + stringArray[scoreInt]));
-			var numScore = ForeverAssets.generateCombo('combo', stringArray[scoreInt], (!negative ? allSicks : false), assetModifier, changeableSkin,
-				'UI', negative, createdColor, scoreInt);
+			var numScore = ForeverAssets.generateCombo('combo', stringArray[scoreInt], (!negative ? allSicks : false), assetModifier, changeableSkin, 'UI',
+				negative, createdColor, scoreInt);
 			add(numScore);
 			// hardcoded lmao
 			if (!Init.trueSettings.get('Simply Judgements'))
@@ -1508,8 +1498,7 @@ class PlayState extends MusicBeatState
 
 	private function charactersDance(curBeat:Int)
 	{
-		if ((curBeat % gfSpeed == 0)
-			&& ((gf.animation.curAnim.name.startsWith("idle") || gf.animation.curAnim.name.startsWith("dance"))))
+		if ((curBeat % gfSpeed == 0) && ((gf.animation.curAnim.name.startsWith("idle") || gf.animation.curAnim.name.startsWith("dance"))))
 			gf.dance();
 
 		if ((boyfriend.animation.curAnim.name.startsWith("idle") || boyfriend.animation.curAnim.name.startsWith("dance"))
@@ -1570,7 +1559,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200
+		if (curSong.toLowerCase() == 'milf'
+			&& curBeat >= 168
+			&& curBeat < 200
 			&& !Init.trueSettings.get('Reduced Movements')
 			&& FlxG.camera.zoom < 1.35)
 		{
