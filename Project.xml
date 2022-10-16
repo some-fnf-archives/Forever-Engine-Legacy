@@ -3,7 +3,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin' Forever Engine" file="Forever-Engine" packageName="com.yoshubs.foreverengine" package="com.yoshubs.foreverengine" main="Main" version="0.2.7.1" company="Yoshubs" />
+	<app title="Forever Engine Legacy" file="Forever Engine Legacy" packageName="com.yoshubs.foreverenginelegacy" package="com.yoshubs.foreverenginelegacy" main="Main" version="0.3.1" company="Yoshubs" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -27,7 +27,7 @@
 	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" />
 
 	<!-- _____________________________ Custom Defines ____________________________ -->
-	
+
 	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
@@ -44,8 +44,8 @@
 
 	<source path="source" />
 	<assets path="assets" />
-	<assets path="assets/songs"/>
-	<assets path="assets/music" preload="true"/>
+	<assets path="assets/songs" />
+	<assets path="assets/music" preload="true" />
 	<assets path="FE-CrashDialog.exe" type="template" if="windows release" />
 
 	<!--<assets path="mods" />-->
@@ -57,8 +57,8 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="discord_rpc" if="DISCORD_RPC"/>
-	<haxelib name="polymod"/>
+	<haxelib name="discord_rpc" if="DISCORD_RPC" />
+	<haxelib name="polymod" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -72,7 +72,7 @@
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 
 	<!-- Make's the game use less ram -->
-	<haxedef name="HXCPP_GC_BIG_BLOCKS"/>
+	<haxedef name="HXCPP_GC_BIG_BLOCKS" />
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
@@ -83,12 +83,12 @@
 
 	<!-- _________________________________ Custom _______________________________ -->
 
-	<icon path="art/icon16.png" size='16'/>
-	<icon path="art/icon32.png" size='32'/>
-	<icon path="art/icon64.png" size='64'/>
-	<icon path="art/icon128.png" size='128'/>
-	<icon path="art/icon256.png" size='256'/>
-	<icon path="art/icon512.png" size='512'/>
+	<icon path="art/icon16.png" size='16' />
+	<icon path="art/icon32.png" size='32' />
+	<icon path="art/icon64.png" size='64' />
+	<icon path="art/icon128.png" size='128' />
+	<icon path="art/icon256.png" size='256' />
+	<icon path="art/icon512.png" size='512' />
 	<icon path="art/iconOG.png" />
 
 </project>
