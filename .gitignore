@@ -2,4 +2,4 @@ export/
 .vscode/
 APIStuff.hx
 mods/
-docs/_build
+docs/legacy-docs/_build

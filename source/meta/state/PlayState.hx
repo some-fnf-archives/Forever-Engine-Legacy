@@ -1169,13 +1169,15 @@ class PlayState extends MusicBeatState
 		persistentUpdate = false;
 		persistentDraw = true;
 
-		//stop all tweens and timers
-		FlxTimer.globalManager.forEach(function(tmr:FlxTimer) {
+		// stop all tweens and timers
+		FlxTimer.globalManager.forEach(function(tmr:FlxTimer)
+		{
 			if (!tmr.finished)
 				tmr.active = false;
 		});
 
-		FlxTween.globalManager.forEach(function(twn:FlxTween) {
+		FlxTween.globalManager.forEach(function(twn:FlxTween)
+		{
 			if (!twn.finished)
 				twn.active = false;
 		});
@@ -1624,13 +1626,15 @@ class PlayState extends MusicBeatState
 			if (songMusic != null && !startingSong)
 				resyncVocals();
 
-			//resume all tweens and timers
-			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) {
+			// resume all tweens and timers
+			FlxTimer.globalManager.forEach(function(tmr:FlxTimer)
+			{
 				if (!tmr.finished)
 					tmr.active = true;
 			});
 
-			FlxTween.globalManager.forEach(function(twn:FlxTween) {
+			FlxTween.globalManager.forEach(function(twn:FlxTween)
+			{
 				if (!twn.finished)
 					twn.active = true;
 			});
