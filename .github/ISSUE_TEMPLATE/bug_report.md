@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+# PLEASE STOP POSTING ISSUES FROM HYPNO'S LULLABY. THEY WILL BE CLOSED IMMEDIATELY.
+
 **Prerequisites:**
 Before reporting a bug PLEASE ensure it is a bug with the ENGINE and not the MOD. Crashes and bugs with mods will NOT be supported here. Any issues regarding mods will be closed immediately.
 
