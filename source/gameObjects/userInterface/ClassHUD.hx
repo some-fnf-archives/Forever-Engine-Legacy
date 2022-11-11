@@ -35,6 +35,9 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	var cornerMark:FlxText; // engine mark at the upper right corner
 	var centerMark:FlxText; // song display name and difficulty at the center
 
+	public var autoplayMark:FlxText; // autoplay indicator at the center
+	public var autoplaySine:Float = 0;
+
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
 
@@ -93,20 +96,16 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		cornerMark = new FlxText(0, 0, 0, engineDisplay);
 		cornerMark.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-		add(cornerMark);
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		cornerMark.antialiasing = true;
+		add(cornerMark);
 
-		centerMark = new FlxText(0, 0, 0, '- ${infoDisplay + " [" + diffDisplay}] -');
+		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- ${infoDisplay + " [" + diffDisplay}] -');
 		centerMark.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-		add(centerMark);
-		if (Init.trueSettings.get('Downscroll'))
-			centerMark.y = (FlxG.height - centerMark.height / 2) - 30;
-		else
-			centerMark.y = (FlxG.height / 24) - 10;
 		centerMark.screenCenter(X);
 		centerMark.antialiasing = true;
+		add(centerMark);
 
 		// counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -131,6 +130,24 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 			}
 		}
 		updateScoreText();
+
+		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
+		autoplayMark.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
+		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		autoplayMark.screenCenter(X);
+		autoplayMark.visible = PlayState.boyfriendStrums.autoplay;
+
+		// repositioning for it to not be covered by the receptors
+		if (Init.trueSettings.get('Centered Notefield'))
+		{
+			if (Init.trueSettings.get('Downscroll'))
+				autoplayMark.y = autoplayMark.y - 125;
+			else
+				autoplayMark.y = autoplayMark.y + 125;
+		}
+
+		add(autoplayMark);
+
 	}
 
 	var counterTextSize:Int = 18;
@@ -161,15 +178,14 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
-		if (healthBar.percent < 20)
-			iconP1.animation.curAnim.curFrame = 1;
-		else
-			iconP1.animation.curAnim.curFrame = 0;
+		iconP1.updateAnim(healthBar.percent);
+		iconP2.updateAnim(100 - healthBar.percent);
 
-		if (healthBar.percent > 80)
-			iconP2.animation.curAnim.curFrame = 1;
-		else
-			iconP2.animation.curAnim.curFrame = 0;
+		if (autoplayMark.visible)
+		{
+			autoplaySine += 180 * (elapsed / 4);
+			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
+		}
 	}
 
 	private final divider:String = " • ";
@@ -179,12 +195,14 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		var importSongScore = PlayState.songScore;
 		var importPlayStateCombo = PlayState.combo;
 		var importMisses = PlayState.misses;
+		var comboDisplay:String = (Timings.comboDisplay != null && Timings.comboDisplay != '' ? ' [${Timings.comboDisplay}]' : '');
+
 		scoreBar.text = 'Score: $importSongScore';
 		// testing purposes
 		var displayAccuracy:Bool = Init.trueSettings.get('Display Accuracy');
 		if (displayAccuracy)
 		{
-			scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + Timings.comboDisplay;
+			scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + comboDisplay;
 			scoreBar.text += divider + 'Combo Breaks: ' + Std.string(PlayState.misses);
 			scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
 		}
