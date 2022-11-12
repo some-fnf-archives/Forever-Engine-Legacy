@@ -10,6 +10,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import openfl.media.Sound;
 import meta.data.dependency.FNFSprite;
 import meta.data.font.Alphabet;
 
@@ -464,7 +465,7 @@ class DialogueBox extends FlxSpriteGroup
 
 				trace(Paths.file(_sound));
 
-				FlxG.sound.play(Paths.file(_sound));
+				FlxG.sound.play(Sound.fromFile(Paths.file(_sound)));
 		}
 	}
 
