@@ -52,7 +52,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	var diffDisplay:String = CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
-	var engineDisplay:String = "F.E LEGACY v" + Main.gameVersion;
+	var engineDisplay:String = "F.E. LEGACY v" + Main.gameVersion;
 
 	// eep
 	public function new()
