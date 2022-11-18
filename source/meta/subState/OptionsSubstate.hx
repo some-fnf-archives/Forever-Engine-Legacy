@@ -118,7 +118,7 @@ class OptionsSubstate extends MusicBeatSubState
 			if (arrayTemp[i] == null)
 				arrayTemp[i] = '';
 			// generate key options lol
-			var optionsText:Alphabet = new Alphabet(0, 0, arrayTemp[i], true, false);
+			var optionsText:Alphabet = new Alphabet(0, 0, arrayTemp[i].replace('_', ' '), true, false);
 			optionsText.screenCenter();
 			optionsText.y += (90 * (i - (arrayTemp.length / 2)));
 			optionsText.targetY = i;
@@ -358,7 +358,7 @@ class OptionsSubstate extends MusicBeatSubState
 				 */
 
 				// now check if its the key we want to change
-				Init.gameControls.get(keyOptions.members[curSelection].text)[0][curHorizontalSelection] = checkKey;
+				Init.gameControls.get(keyOptions.members[curSelection].text.replace(' ', '_'))[0][curHorizontalSelection] = checkKey;
 				otherKeys.members[(curSelection * 2) + curHorizontalSelection].text = getStringKey(checkKey);
 
 				// refresh keys

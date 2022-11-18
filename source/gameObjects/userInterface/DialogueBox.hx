@@ -464,7 +464,7 @@ class DialogueBox extends FlxSpriteGroup
 
 				trace(Paths.file(_sound));
 
-				FlxG.sound.play(Paths.file(_sound));
+				FlxG.sound.play(openfl.media.Sound.fromFile(Paths.file(_sound)));
 		}
 	}
 

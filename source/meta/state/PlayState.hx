@@ -141,8 +141,8 @@ class PlayState extends MusicBeatState
 	public static var determinedChartType:String = "";
 
 	// strumlines
-	private var dadStrums:Strumline;
-	private var boyfriendStrums:Strumline;
+	public static var dadStrums:Strumline;
+	public static var boyfriendStrums:Strumline;
 
 	public static var strumLines:FlxTypedGroup<Strumline>;
 	public static var strumHUD:Array<FlxCamera> = [];
@@ -154,11 +154,8 @@ class PlayState extends MusicBeatState
 	// stores the last combo objects in an array
 	public static var lastCombo:Array<FlxSprite>;
 
-	// at the beginning of the playstate
-	override public function create()
+	function resetStatics()
 	{
-		super.create();
-
 		// reset any values and variables that are static
 		songScore = 0;
 		combo = 0;
@@ -171,10 +168,20 @@ class PlayState extends MusicBeatState
 		cameraSpeed = 1;
 		forceZoom = [0, 0, 0, 0];
 
-		Timings.callAccuracy();
-
 		assetModifier = 'base';
 		changeableSkin = 'default';
+
+		PlayState.SONG.validScore = true;
+	}
+
+	// at the beginning of the playstate
+	override public function create()
+	{
+		super.create();
+
+		resetStatics();
+
+		Timings.callAccuracy();
 
 		// stop any existing music tracks playing
 		resetMusic();
@@ -189,9 +196,9 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camHUD);
+		FlxG.cameras.add(camHUD, false);
 		allUIs.push(camHUD);
-		FlxCamera.defaultCameras = [camGame];
+		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
 		// default song
 		if (SONG == null)
@@ -323,7 +330,7 @@ class PlayState extends MusicBeatState
 
 			strumHUD[i].cameras = [camHUD];
 			allUIs.push(strumHUD[i]);
-			FlxG.cameras.add(strumHUD[i]);
+			FlxG.cameras.add(strumHUD[i], false);
 			// set this strumline's camera to the designated camera
 			strumLines.members[i].cameras = [strumHUD[i]];
 		}
@@ -337,7 +344,7 @@ class PlayState extends MusicBeatState
 		// create a hud over the hud camera for dialogue
 		dialogueHUD = new FlxCamera();
 		dialogueHUD.bgColor.alpha = 0;
-		FlxG.cameras.add(dialogueHUD);
+		FlxG.cameras.add(dialogueHUD, false);
 
 		//
 		keysArray = [
@@ -571,7 +578,11 @@ class PlayState extends MusicBeatState
 				}
 
 				if ((FlxG.keys.justPressed.SIX))
+				{
 					boyfriendStrums.autoplay = !boyfriendStrums.autoplay;
+					uiHUD.autoplayMark.visible = boyfriendStrums.autoplay;
+					PlayState.SONG.validScore = false;
+				}
 			}
 
 			///*

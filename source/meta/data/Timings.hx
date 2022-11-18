@@ -16,9 +16,9 @@ class Timings
 	// from left to right
 	// max milliseconds, score from it and percentage
 	public static var judgementsMap:Map<String, Array<Dynamic>> = [
-		"sick" => [0, 45, 350, 100, ' [SFC]'],
-		"good" => [1, 90, 150, 75, ' [GFC]'],
-		"bad" => [2, 135, 0, 25, ' [FC]'],
+		"sick" => [0, 45, 350, 100, 'SFC'],
+		"good" => [1, 90, 150, 75, 'GFC'],
+		"bad" => [2, 135, 0, 25, 'FC'],
 		"shit" => [3, 157.5, -50, -150],
 		"miss" => [4, 180, -100, -175],
 	];
@@ -98,7 +98,7 @@ class Timings
 		else
 		{
 			if (PlayState.misses < 10)
-				comboDisplay = ' [SDCB]';
+				comboDisplay = 'SDCB';
 		}
 
 		// this updates the most so uh

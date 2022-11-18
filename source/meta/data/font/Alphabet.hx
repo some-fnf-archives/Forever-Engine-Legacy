@@ -262,7 +262,7 @@ class Alphabet extends FlxSpriteGroup
 						var cur = FlxG.random.int(0, soundChoices.length - 1);
 						var daSound:String = beginPath + soundChoices[cur] + "." + Paths.SOUND_EXT;
 
-						FlxG.sound.play(daSound);
+						FlxG.sound.play(openfl.media.Sound.fromFile(daSound));
 					}
 				}
 				else

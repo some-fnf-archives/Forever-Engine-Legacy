@@ -87,13 +87,6 @@ class Init extends FlxState
 			'Darkens non-ui elements, useful if you find the characters and backgrounds distracting.',
 			NOT_FORCED
 		],
-		'Opacity Type' => [
-			'UI',
-			Selector,
-			'Choose whether the filter will be behind the notes or the UI',
-			NOT_FORCED,
-			['UI', 'Notes']
-		],
 		'Counter' => [
 			'None',
 			Selector,
