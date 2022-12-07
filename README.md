@@ -62,18 +62,6 @@ I urge you to check out his project, [Izzy Engine](https://github.com/gedehari/I
     * also scaleable text for dialogue functions;
 * the entire Funkin' crew:
     * THEY MADE THE BASE GAME EXIST SO LIKE WITHOUT THEM THIS WOULD NOT HAVE BEEN POSSIBLE GO CHECK THEM OUT RIGHT NOW;
-* rest of the rise n' skate team:
-    * that mod is the reason im even making an engine right now so like I kind of owe you guys this whole engine and more for that honestly and I will actually do more so stay tuned.
-----------------------------------------------
-# Shoutouts:
-* [HThagomizer](https://github.com/HThagomizer):
-    * not MURDERING ME for accidentally pushing the martian mixtape source code;
-* [Tsuraran](https://twitter.com/_Tsuraran):
-    * DOPE ASS CUSTOM MENU MUSIC INCOMING,
-    * also made vs skipper with clockwerk which is fucking hilarious ALSO YEAH I'LL BUMP AS WELL AFTER ITS IN THE ENGINE (YES IM WORKING ON IT TOO LMAO);
-* [Clockwerk](https://twitter.com/ClockwerkSmurf):
-    * also made vs skipper,
-    *  ***oh my god what were you guys thinking.***
 
 ----------------------------------------------
 ## For compiling help, check out this little guide [here](/docs/COMPILE-HELP.md).
