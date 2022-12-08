@@ -49,7 +49,7 @@ I urge you to check out his project, [Izzy Engine](https://github.com/gedehari/I
 * [ImCodist](https://github.com/ImCodist):
     * helped with a couple of pull requests and issue fixes,
     * MADE THE WHOLE ASS FREAKING DIALOGUE SYSTEMbut, I'm not gonna give him any credit at all, because he stole my obsidian soul in minecraft and I will never forgive him for that!!!!
-* [Scralett](https://github.com/SomeKitten):
+* [Scarlett](https://github.com/SomeKitten):
     * Overall cool friend of mine who knows a lot about programming and math that has helped me out countless times,
     * still going here helping me with pushes, commits, etc.,
     * she wrote the finalized math formula for the note quants and fixed the song name issue;
