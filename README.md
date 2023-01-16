@@ -5,8 +5,6 @@
 </p>
 
 ----------------------------------------------
-## Please redirect all future and current enhancements to the [new repository](https://github.com/Yoshubs/FNF-Forever-Engine).
-----------------------------------------------
 Forever Engine is currently in *legacy* state as it is being rewritten. 
 
 The legacy version of Forever Engine lacks accessibility and cohesion, something we are currently working to fix with the more newer and updated rewrite.
