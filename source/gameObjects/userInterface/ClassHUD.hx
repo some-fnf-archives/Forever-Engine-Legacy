@@ -147,7 +147,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		}
 
 		add(autoplayMark);
-
 	}
 
 	var counterTextSize:Int = 18;
