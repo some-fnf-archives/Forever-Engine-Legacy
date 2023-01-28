@@ -522,7 +522,7 @@ class ChartingState extends MusicBeatState
 
 	private function generateBackground()
 	{
-		#if (flixel_addons <= "2.12.1")
+		#if (flixel_addons < "2.12.1")
 		coolGrid = new FlxBackdrop(null, 1, 1, true, false);
 		#else
 		coolGrid = new FlxBackdrop(null, XY, false);		
