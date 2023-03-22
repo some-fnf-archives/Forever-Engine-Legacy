@@ -21,7 +21,7 @@ jobs:
 
       - name: Installing Libraries
         run: |
-          haxe -cp ./resources/actions -D analyzer-optimize -main Main --interp
+          haxe -cp ./actions -D analyzer-optimize -main Main --interp
 
       - name: Building
         run: haxelib run lime build windows -final
@@ -50,7 +50,7 @@ jobs:
 
       - name: Installing Libraries
         run: |
-          haxe -cp ./resources/actions -D analyzer-optimize -main Main --interp
+          haxe -cp ./actions -D analyzer-optimize -main Main --interp
 
       - name: Building
         run: haxelib run lime build linux -final
@@ -79,7 +79,7 @@ jobs:
 
       - name: Installing Libraries
         run: |
-          haxe -cp ./resources/actions -D analyzer-optimize -main Main --interp
+          haxe -cp ./actions -D analyzer-optimize -main Main --interp
 
       - name: Building
         run: haxelib run lime build mac -final
