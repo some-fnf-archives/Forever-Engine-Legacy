@@ -226,7 +226,7 @@ class Main extends Sprite
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Yoshubs/Forever-Engine";
+		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/BeastlyGabi/Forever-Engine-Legacy";
 
 		if (!FileSystem.exists("crash/"))
 			FileSystem.createDirectory("crash/");
