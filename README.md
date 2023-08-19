@@ -35,7 +35,7 @@ AND MORE!
     * happens to be very fucking stupid for accidentally pushing the martian mixtape source code into legacy's base github page;
 * [Pixloen](https://github.com/PixlJacket):
     * made a lot of custom assets that legacy uses,
-    * gave me a lot of advice on how to improve the engine as well as his input on how to improve upon the base game and how the input system felt and such,
+    * gave shubs a lot of advice on how to improve the engine as well as his input on how to improve upon the base game and how the input system felt and such,
     * programmed simply judgements and background darken
     * basically co-owns the engine lmao;
 * [Gedehari](https://github.com/gedehari):
@@ -49,19 +49,19 @@ I urge you to check out his project, [Izzy Engine](https://github.com/gedehari/I
 
 * [ImCodist](https://github.com/ImCodist):
     * helped with a couple of pull requests and issue fixes,
-    * MADE THE WHOLE ASS FREAKING DIALOGUE SYSTEMbut, I'm not gonna give him any credit at all, because he stole my obsidian soul in minecraft and I will never forgive him for that!!!!
+    * MADE THE WHOLE ASS FREAKING DIALOGUE SYSTEMbut, she didn't give him any credit at all, because he stole my obsidian soul in minecraft and I will never forgive him for that!!!!
 * [Scarlett](https://github.com/SomeKitten):
-    * Overall cool friend of mine who knows a lot about programming and math that has helped me out countless times,
-    * still going here helping me with pushes, commits, etc.,
+    * Overall cool friend of shubs who knows a lot about programming and math that has helped me out countless times,
+    * still going here helping shubs with pushes, commits, etc.,
     * she wrote the finalized math formula for the note quants and fixed the song name issue;
 * [Oneilr](https://oneilr.newgrounds.com/):
     * Cool Guy Oneilr,
     * made some of the custom assets, mostly the animated ones like the custom note splashes to avoid the week 7 embargo as well as some other things like the checkmarks in the options menu;
 * [HelloSammu](https://github.com/hellosammu):
-    * weird catfgirl programmer, they scare me,
+    * weird catfgirl programmer, they scare shubs,
     * CREDIT MAINTENANCE AND SOME MISC FIXES,
     * also scaleable text for dialogue functions;
-* the entire Funkin' crew:
+* [the entire Funkin' crew](https://github.com/FunkinCrew):
     * THEY MADE THE BASE GAME EXIST SO LIKE WITHOUT THEM THIS WOULD NOT HAVE BEEN POSSIBLE GO CHECK THEM OUT RIGHT NOW;
 
 ----------------------------------------------
