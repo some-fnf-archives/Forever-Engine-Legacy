@@ -68,5 +68,5 @@ I urge you to check out his project, [Izzy Engine](https://github.com/gedehari/I
 ## For compiling help, check out this little guide [here](/docs/COMPILE-HELP.md).
 ## To see changes made to the engine, check out the changelog [here](/CHANGELOG.md).
 ----------------------------------------------
-<h1 align="center">Thank you for checking out my engine!</h1>
+<h1 align="center">Thank you for checking out Forever Engine!</h1>
 <h2 align="center">Got any questions? DM me at @CrowPlexus on Discord!</h2>
