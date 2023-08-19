@@ -16,51 +16,47 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 
 	public var optionChosen:Alphabet;
 	public var chosenOptionString:String = '';
+
+	public var optionName:String = "";
 	public var options:Array<String>;
 
-	public var fpsCap:Bool = false;
+	public var isNumber(get, never):Bool;
+
 	public var darkBG:Bool = false;
 
-	public function new(x:Float = 0, y:Float = 0, word:String, options:Array<String>, fpsCap:Bool = false, darkBG:Bool = false)
+	public function new(x:Float = 0, y:Float = 0, word:String, options:Array<String>)
 	{
 		// call back the function
 		super(x, y);
 
+		optionName = word;
 		this.options = options;
-		trace(options);
+		trace(options); 
 
 		// oops magic numbers
-		var shiftX = 48;
-		var shiftY = 35;
+		var shiftX = 48, shiftY = 35;
 		// generate multiple pieces
-
-		this.fpsCap = fpsCap;
-		this.darkBG = darkBG;
 
 		#if html5
 		// lol heres how we fuck with everyone
-		var lock = new FlxSprite(shiftX + ((word.length) * 50) + (shiftX / 4) + ((fpsCap) ? 20 : 0), shiftY);
+		var lock = new FlxSprite(shiftX + ((word.length) * 50) + (shiftX / 4) + ((isNumber) ? 20 : 0), shiftY);
 		lock.frames = Paths.getSparrowAtlas('menus/base/storymenu/campaign_menu_UI_assets');
 		lock.animation.addByPrefix('lock', 'lock', 24, false);
 		lock.animation.play('lock');
 		add(lock);
 		#else
 		leftSelector = createSelector(shiftX, shiftY, word, 'left');
-		rightSelector = createSelector(shiftX + ((word.length) * 50) + (shiftX / 4) + ((fpsCap) ? 20 : 0), shiftY, word, 'right');
+		rightSelector = createSelector(shiftX + ((word.length) * 50) + (shiftX / 4) + ((isNumber) ? 20 : 0), shiftY, word, 'right');
 
 		add(leftSelector);
 		add(rightSelector);
 		#end
 
-		chosenOptionString = Init.trueSettings.get(word);
-		if (fpsCap || darkBG)
-		{
-			chosenOptionString = Std.string(Init.trueSettings.get(word));
-			optionChosen = new Alphabet(FlxG.width / 2 + 200, shiftY + 20, chosenOptionString, false, false);
-		}
-		else
-			optionChosen = new Alphabet(FlxG.width / 2, shiftY + 20, chosenOptionString, true, false);
+		chosenOptionString = Std.string(Init.trueSettings.get(word));
+		trace(isNumber);
 
+		var inc:Int = isNumber ? 200 : 0;
+		optionChosen = new Alphabet(FlxG.width / 2 + inc, shiftY + 20, chosenOptionString, !isNumber, false);
 		add(optionChosen);
 	}
 
@@ -103,5 +99,30 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 		objectArray.push(object);
 		positionLog.push([object.x, object.y]);
 		return super.add(object);
+	}
+
+	public function updateSelection(newSelection:Int, min:Int = 0, max:Int = 100, inc:Int = 5):Void
+	{
+		// bro I dont even know if the engine works in html5 why am I even doing this
+		// lazily hardcoded selector settings
+		var ogValue = Init.trueSettings.get(optionName);
+		var increase = inc * newSelection;
+
+		if (newSelection != 0)
+			selectorPlay(newSelection == -1 ? 'left' : 'right', 'press');
+		FlxG.sound.play(Paths.sound('scrollMenu'));
+
+		ogValue = flixel.math.FlxMath.bound(ogValue + increase, min, max);
+		chosenOptionString = Std.string(ogValue);
+		optionChosen.text = Std.string(ogValue);
+
+		Init.trueSettings.set(optionName, ogValue);
+		Init.saveSettings();
+	}
+
+	@:noCompletion
+	function get_isNumber():Bool {
+		return (Init.trueSettings.get(optionName) is Int
+				|| Init.trueSettings.get(optionName) is Float);
 	}
 }

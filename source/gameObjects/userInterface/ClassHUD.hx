@@ -25,9 +25,10 @@ using StringTools;
 
 class ClassHUD extends FlxTypedGroup<FlxBasic>
 {
+	var game(get, never):PlayState;
+
 	// set up variables and stuff here
 	var scoreBar:FlxText;
-	var scoreLast:Float = -1;
 
 	// fnf mods
 	var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
@@ -40,8 +41,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
-
-	private var SONG = PlayState.SONG;
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
@@ -77,11 +76,11 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		// healthBar
 		add(healthBar);
 
-		iconP1 = new HealthIcon(SONG.player1, true);
+		iconP1 = new HealthIcon(PlayState.SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
 
-		iconP2 = new HealthIcon(SONG.player2, false);
+		iconP2 = new HealthIcon(PlayState.SONG.player2, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
@@ -134,8 +133,8 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		autoplayMark.visible = game.plrStrums.autoplay;
 		autoplayMark.screenCenter(X);
-		autoplayMark.visible = PlayState.boyfriendStrums.autoplay;
 
 		// repositioning for it to not be covered by the receptors
 		if (Init.trueSettings.get('Centered Notefield'))
@@ -159,7 +158,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	override public function update(elapsed:Float)
 	{
 		// pain, this is like the 7th attempt
-		healthBar.percent = (PlayState.health * 50);
+		healthBar.percent = (game.health * 50);
 
 		var iconLerp = 1 - Main.framerateAdjust(0.15);
 		// iconP1.setGraphicSize(Std.int(FlxMath.lerp(iconP1.initialWidth, iconP1.width, iconLerp)));
@@ -191,22 +190,18 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	public function updateScoreText()
 	{
-		var importSongScore = PlayState.songScore;
-		var importPlayStateCombo = PlayState.combo;
-		var importMisses = PlayState.misses;
 		var comboDisplay:String = (Timings.comboDisplay != null && Timings.comboDisplay != '' ? ' [${Timings.comboDisplay}]' : '');
 
-		scoreBar.text = 'Score: $importSongScore';
-		// testing purposes
-		var displayAccuracy:Bool = Init.trueSettings.get('Display Accuracy');
-		if (displayAccuracy)
+		scoreDisplay = 'Score: ${game.songScore}';
+		if (Init.trueSettings.get('Display Accuracy'))
 		{
-			scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + comboDisplay;
-			scoreBar.text += divider + 'Combo Breaks: ' + Std.string(PlayState.misses);
-			scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
+			scoreDisplay += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + comboDisplay;
+			scoreDisplay += divider + 'Combo Breaks: ' + Std.string(game.misses);
+			scoreDisplay += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
 		}
-		scoreBar.text += '\n';
-		scoreBar.x = Math.floor((FlxG.width / 2) - (scoreBar.width / 2));
+
+		scoreBar.text = '${scoreDisplay}\n';
+		scoreBar.screenCenter(X);
 
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -218,7 +213,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 			}
 		}
 
-		// update playstate
+		// update game
 		PlayState.detailsSub = scoreBar.text;
 		PlayState.updateRPC(false);
 	}
@@ -233,6 +228,9 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();
 		}
-		//
 	}
+
+	@:noCompletion
+	function get_game():PlayState
+		return PlayState.current;
 }

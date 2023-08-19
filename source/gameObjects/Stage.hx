@@ -11,7 +11,6 @@ import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
-import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import gameObjects.background.*;
@@ -29,6 +28,9 @@ using StringTools;
 **/
 class Stage extends FlxTypedGroup<FlxBasic>
 {
+	public var cameraZoom:Float = 1.05;
+	public var cameraSpeed:Float = 1.0;
+
 	var halloweenBG:FNFSprite;
 	var phillyCityLights:FlxTypedGroup<FNFSprite>;
 	var phillyTrain:FNFSprite;
@@ -148,7 +150,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				add(street);
 			case 'highway':
 				curStage = 'highway';
-				PlayState.defaultCamZoom = 0.90;
+				cameraZoom = 0.90;
 
 				var skyBG:FNFSprite = new FNFSprite(-120, -50).loadGraphic(Paths.image('backgrounds/' + curStage + '/limoSunset'));
 				skyBG.scrollFactor.set(0.1, 0.1);
@@ -193,7 +195,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			// loadArray.add(limo);
 			case 'mall':
 				curStage = 'mall';
-				PlayState.defaultCamZoom = 0.80;
+				cameraZoom = 0.80;
 
 				var bg:FNFSprite = new FNFSprite(-1000, -500).loadGraphic(Paths.image('backgrounds/' + curStage + '/bgWalls'));
 				bg.antialiasing = true;
@@ -265,7 +267,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			case 'school':
 				curStage = 'school';
 
-				// defaultCamZoom = 0.9;
+				// cameraZoom = 0.9;
 
 				var bgSky = new FNFSprite().loadGraphic(Paths.image('backgrounds/' + curStage + '/weebSky'));
 				bgSky.scrollFactor.set(0.1, 0.1);
@@ -337,7 +339,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				add(bg);
 
 			default:
-				PlayState.defaultCamZoom = 0.9;
+				cameraZoom = 0.9;
 				curStage = 'stage';
 				var bg:FNFSprite = new FNFSprite(-600, -200).loadGraphic(Paths.image('backgrounds/' + curStage + '/stageback'));
 				bg.antialiasing = true;

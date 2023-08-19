@@ -16,11 +16,15 @@ using StringTools;
 
 /** 
 	Enumerator for settingtypes
+
+	[08/19/2023 - by: CrowPlexus]
+	this was a normal enum beforehand, it was converted
+	to an abstract so HashLink could work
 **/
-enum SettingTypes
+enum abstract SettingTypes(Int) to Int
 {
-	Checkmark;
-	Selector;
+	var Checkmark = 0;
+	var Selector = 1;
 }
 
 /**

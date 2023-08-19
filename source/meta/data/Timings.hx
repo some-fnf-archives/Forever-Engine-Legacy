@@ -97,12 +97,12 @@ class Timings
 			comboDisplay = judgementsMap.get(smallestRating)[4];
 		else
 		{
-			if (PlayState.misses < 10)
+			if (PlayState.current.misses < 10)
 				comboDisplay = 'SDCB';
 		}
 
 		// this updates the most so uh
-		PlayState.uiHUD.updateScoreText();
+		PlayState.current.uiHUD.updateScoreText();
 	}
 
 	public static function getAccuracy()

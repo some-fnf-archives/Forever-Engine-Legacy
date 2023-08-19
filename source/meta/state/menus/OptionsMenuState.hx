@@ -391,9 +391,7 @@ class OptionsMenuState extends MusicBeatState
 						extrasMap.set(letter, checkmark);
 					case Init.SettingTypes.Selector:
 						// selector
-						var selector:Selector = new Selector(10, letter.y, letter.text, Init.gameSettings.get(letter.text)[4],
-							(letter.text == 'Framerate Cap') ? true : false, (letter.text == 'Stage Opacity') ? true : false);
-
+						var selector:Selector = new Selector(10, letter.y, letter.text, Init.gameSettings.get(letter.text)[4]);
 						extrasMap.set(letter, selector);
 					default:
 						// dont do ANYTHING
@@ -461,58 +459,17 @@ class OptionsMenuState extends MusicBeatState
 
 	function updateSelector(selector:Selector, updateBy:Int)
 	{
-		var fps = selector.fpsCap;
-		var bgdark = selector.darkBG;
-		if (fps)
+		if (selector.isNumber)
 		{
-			// bro I dont even know if the engine works in html5 why am I even doing this
-			// lazily hardcoded fps cap
-			var originalFPS = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
-			var increase = 15 * updateBy;
-			if (originalFPS + increase < 30)
-				increase = 0;
-			// high fps cap
-			if (originalFPS + increase > 360)
-				increase = 0;
-
-			if (updateBy == -1)
-				selector.selectorPlay('left', 'press');
-			else
-				selector.selectorPlay('right', 'press');
-
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-
-			originalFPS += increase;
-			selector.chosenOptionString = Std.string(originalFPS);
-			selector.optionChosen.text = Std.string(originalFPS);
-			Init.trueSettings.set(activeSubgroup.members[curSelection].text, originalFPS);
-			Init.saveSettings();
+			switch (activeSubgroup.members[curSelection].text)
+			{
+				case "Framerate Cap":
+					selector.updateSelection(updateBy, 30, 360, 15);
+				default:
+					selector.updateSelection(updateBy);
+			}
 		}
-		else if (bgdark)
-		{
-			// lazily hardcoded darkness cap
-			var originaldark = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
-			var increase = 5 * updateBy;
-			if (originaldark + increase < 0)
-				increase = 0;
-			// high darkness cap
-			if (originaldark + increase > 100)
-				increase = 0;
-
-			if (updateBy == -1)
-				selector.selectorPlay('left', 'press');
-			else
-				selector.selectorPlay('right', 'press');
-
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-
-			originaldark += increase;
-			selector.chosenOptionString = Std.string(originaldark);
-			selector.optionChosen.text = Std.string(originaldark);
-			Init.trueSettings.set(activeSubgroup.members[curSelection].text, originaldark);
-			Init.saveSettings();
-		}
-		else if (!fps && !bgdark)
+		else
 		{
 			// get the current option as a number
 			var storedNumber:Int = 0;
@@ -520,10 +477,8 @@ class OptionsMenuState extends MusicBeatState
 			if (selector.options != null)
 			{
 				for (curOption in 0...selector.options.length)
-				{
 					if (selector.options[curOption] == selector.optionChosen.text)
 						storedNumber = curOption;
-				}
 
 				newSelection = storedNumber + updateBy;
 				if (newSelection < 0)
@@ -532,11 +487,8 @@ class OptionsMenuState extends MusicBeatState
 					newSelection = 0;
 			}
 
-			if (updateBy == -1)
-				selector.selectorPlay('left', 'press');
-			else
-				selector.selectorPlay('right', 'press');
-
+			if (updateBy == 0)
+				selector.selectorPlay(updateBy == -1 ? 'left' : 'right', 'press');
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 
 			selector.chosenOptionString = selector.options[newSelection];

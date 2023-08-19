@@ -28,7 +28,7 @@
 
 	<!-- _____________________________ Custom Defines ____________________________ -->
 
-	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
+	<define name="DISCORD_RPC" if="cpp" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 

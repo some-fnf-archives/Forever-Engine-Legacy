@@ -6,7 +6,6 @@ import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
-import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -291,15 +290,7 @@ class FreeplayState extends MusicBeatState
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-		curSelected += change;
-
-		if (curSelected < 0)
-			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
-			curSelected = 0;
-
-		// selector.y = (70 * curSelected) + 30;
-
+		curSelected = flixel.math.FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 
 		// set up color stuffs
