@@ -27,7 +27,10 @@ AND MORE!
 
 ----------------------------------------------
 # Credits:
-* [Yoshubs](https://github.com/Yoshubs) (me!):
+* [CrowPlexus](https://twitter.com/CrowPlexus) (me!):
+    * maintainer of the engine (as of version 0.3.1.1)
+    * she likes how the note splash looks.
+* [Yoshubs](https://github.com/Yoshubs):
     * made the engine,
     * happens to be very fucking stupid for accidentally pushing the martian mixtape source code into legacy's base github page;
 * [Pixloen](https://github.com/PixlJacket):
