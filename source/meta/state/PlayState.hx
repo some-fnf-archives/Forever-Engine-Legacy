@@ -122,8 +122,8 @@ class PlayState extends MusicBeatState
 
 	private var stageBuild:Stage;
 
-	public var iconRPC:String = "";
-	public var songLength:Float = 0;
+	public static var iconRPC:String = "";
+	public static var songLength:Float = 0;
 	public var uiHUD:ClassHUD;
 
 	public static var daPixelZoom:Float = 6;
