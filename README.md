@@ -37,7 +37,7 @@ AND MORE!
     * made a lot of custom assets that legacy uses,
     * gave shubs a lot of advice on how to improve the engine as well as his input on how to improve upon the base game and how the input system felt and such,
     * programmed simply judgements and background darken
-    * basically co-owns the engine lmao;
+    * basically co-owned the engine lmao;
 * [Gedehari](https://github.com/gedehari):
     * BANGER ASS PROGRAMER,
     * made the freeplay loading thread to avoid lag issues in freeplay,
