@@ -1,8 +1,8 @@
 package;
 
+import haxe.Json;
 import sys.FileSystem;
 import sys.io.File;
-import haxe.Json;
 
 typedef Library =
 {
@@ -22,7 +22,7 @@ class Main
 		if (!FileSystem.exists('.haxelib'))
 			FileSystem.createDirectory('.haxelib');
 
-		final libraries:Array<Library> = Json.parse(File.getContent('./hmm.json')).dependencies;
+		final libraries:Array<Library> = Json.parse(File.getContent('./actions/libraries.json')).dependencies;
 
 		for (lib in libraries)
 		{

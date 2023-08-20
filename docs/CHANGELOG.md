@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 Originally used by [ninjamuffin99](https://github.com/ninjamuffin99) in the [original Funkin' repo](https://github.com/ninjamuffin99/Funkin/blob/master/CHANGELOG.md).
 
+## [0.3.2]
+- Made the UI *slightly* smaller to not be as distracting;
+
 ## [0.3.1]
 - Changed UI to resemble Forever Engine Rewrite's UI (it's just better).
 

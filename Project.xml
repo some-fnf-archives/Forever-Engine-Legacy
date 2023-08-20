@@ -3,7 +3,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Forever Engine" file="Forever-Engine" packageName="com.yoshubs.foreverenginelegacy" package="com.yoshubs.foreverenginelegacy" main="Main" version="0.3.1" company="Yoshubs" />
+	<app title="Forever Engine" file="Forever-Engine" packageName="com.crowplexus.foreverenginelegacy" package="com.crowplexus.foreverenginelegacy" main="Main" company="CrowPlexus" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -36,19 +36,10 @@
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 
-	<!--
-		if you ever want to preload specific asset folders, add them here
-		keep in mind that if you don't want said asset folders to be cleared by the game's paths system
-		simply add the files to Paths.hx, on the dumpExclusions array
-	-->
-
 	<source path="source" />
 	<assets path="assets" />
-	<assets path="assets/songs" />
-	<assets path="assets/music" preload="true" />
-	<assets path="FE-CrashDialog.exe" type="template" if="windows release" />
 
-	<!--<assets path="mods" />-->
+	<assets path="FE-CrashDialog.exe" type="template" if="windows release" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
@@ -71,7 +62,7 @@
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 
-	<!-- Make's the game use less ram -->
+	<!-- Allows higher memory allocation for the program, from 4GB max, to 12GB -->
 	<haxedef name="HXCPP_GC_BIG_BLOCKS" />
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->

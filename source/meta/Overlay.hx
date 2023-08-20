@@ -6,6 +6,8 @@ import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 
+using flixel.util.FlxStringUtil;
+
 /**
 	Overlay that displays FPS and memory usage.
 
@@ -32,26 +34,10 @@ class Overlay extends TextField
 		autoSize = LEFT;
 		selectable = false;
 
-		defaultTextFormat = new TextFormat(Paths.font("vcr.ttf"), 18, 0xFFFFFF);
+		defaultTextFormat = new TextFormat(Paths.font("vcr.ttf"), 14, 0xFFFFFF);
 		text = "";
 
 		addEventListener(Event.ENTER_FRAME, update);
-	}
-
-	static final intervalArray:Array<String> = ['B', 'KB', 'MB', 'GB', 'TB'];
-
-	public static function getInterval(num:UInt):String
-	{
-		var size:Float = num;
-		var data = 0;
-		while (size > 1000 && data < intervalArray.length - 1)
-		{
-			data++;
-			size = size / 1000;
-		}
-
-		size = Math.round(size * 100) / 100;
-		return size + " " + intervalArray[data];
 	}
 
 	function update(_:Event)
@@ -67,10 +53,10 @@ class Overlay extends TextField
 
 		if (visible)
 		{
-			text = '' // set up the text itself
-				+ (displayFps ? times.length + " FPS\n" : '') // Framerate
-			#if !neko + (displayExtra ? Main.mainClassState + "\n" : '') #end // Current Game State
-			+ (displayMemory ? '${getInterval(mem)} / ${getInterval(memPeak)}\n' : ''); // Current and Total Memory Usage
+			text = ''; // set up the text itself
+			text += (displayFps ? times.length + " FPS\n" : ''); // Framerate
+			text += #if !neko (displayExtra ? Main.mainClassState + "\n" : ''); #end // Current Game State
+			text += (displayMemory ? '${FlxStringUtil.formatBytes(mem)} / ${FlxStringUtil.formatBytes(memPeak)}\n' : ''); // Current and Total Memory Usage
 		}
 	}
 
