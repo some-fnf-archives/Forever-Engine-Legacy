@@ -28,11 +28,16 @@ AND MORE!
 ----------------------------------------------
 # Credits:
 * [CrowPlexus](https://twitter.com/CrowPlexus) (me!):
-    * maintainer of the engine (as of version 0.3.1.1)
+    * maintainer of the engine as of recent events.
     * she likes how the note splash looks.
 * Yoshubs:
     * made the engine,
-    * happens to be very fucking stupid for accidentally pushing the martian mixtape source code into legacy's base github page;
+    * happens to be very fucking stupid for accidentally pushing the martian mixtape source code into legacy's base github page
+    * Nobody, and I repeat, NOBODY, support Shubs' doings on the internet
+      
+      If instead of dealing with her problems and DOING BETTER, she decided to run away, that's her decision
+      
+      I *don't* support pedophiles.
 * [Pixloen](https://github.com/PixlJacket):
     * made a lot of custom assets that legacy uses,
     * gave shubs a lot of advice on how to improve the engine as well as his input on how to improve upon the base game and how the input system felt and such,
