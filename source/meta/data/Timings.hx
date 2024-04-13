@@ -68,7 +68,6 @@ class Timings
 		segmentsHit = 0;
 
 		ratingFinal = "N/A";
-
 		comboDisplay = '';
 	}
 

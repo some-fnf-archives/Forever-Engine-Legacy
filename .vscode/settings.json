@@ -3,10 +3,7 @@
 		"export/**/*.hx": true
 	},
 	"[haxe]": {
-		"editor.formatOnPaste": true,
-		"editor.codeActionsOnSave": {
-			"source.sortImports": true
-		}
+		"editor.formatOnPaste": false,
 	},
 	"haxe.enableExtendedIndentation": true,
 	"restructuredtext.confPath": "${workspaceFolder}\\docs"

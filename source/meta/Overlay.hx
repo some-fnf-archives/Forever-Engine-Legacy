@@ -1,12 +1,15 @@
 package meta;
 
+import flixel.FlxG;
+using flixel.util.FlxStringUtil;
+
 import haxe.Timer;
+
 import openfl.events.Event;
 import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 
-using flixel.util.FlxStringUtil;
 
 /**
 	Overlay that displays FPS and memory usage.
@@ -34,7 +37,7 @@ class Overlay extends TextField
 		autoSize = LEFT;
 		selectable = false;
 
-		defaultTextFormat = new TextFormat(Paths.font("vcr.ttf"), 14, 0xFFFFFF);
+		defaultTextFormat = new TextFormat(Paths.font("vcr.ttf"), 16, 0xFFFFFF);
 		text = "";
 
 		addEventListener(Event.ENTER_FRAME, update);
@@ -54,9 +57,16 @@ class Overlay extends TextField
 		if (visible)
 		{
 			text = ''; // set up the text itself
-			text += (displayFps ? times.length + " FPS\n" : ''); // Framerate
-			text += #if !neko (displayExtra ? Main.mainClassState + "\n" : ''); #end // Current Game State
-			text += (displayMemory ? '${FlxStringUtil.formatBytes(mem)} / ${FlxStringUtil.formatBytes(memPeak)}\n' : ''); // Current and Total Memory Usage
+			if (displayFps) // Framerate
+				text += '${times.length} FPS\n';
+			#if !neko // Current Game State
+			if (displayExtra && FlxG.state != null) {
+				text += 'State: ${Type.getClassName(Type.getClass(FlxG.state))}\n';
+				text += 'Objects: ${FlxG.state.countLiving()} (Dead: ${FlxG.state.countDead()})\n';
+			}
+			#end
+			if (displayMemory) // Current and Total Memory Usage
+				text += '${FlxStringUtil.formatBytes(mem)} / ${FlxStringUtil.formatBytes(memPeak)}\n';
 		}
 	}
 

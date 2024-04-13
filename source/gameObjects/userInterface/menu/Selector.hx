@@ -31,7 +31,7 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 
 		optionName = word;
 		this.options = options;
-		trace(options); 
+		//trace(options); 
 
 		// oops magic numbers
 		var shiftX = 48, shiftY = 35;
@@ -39,24 +39,24 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 
 		#if html5
 		// lol heres how we fuck with everyone
-		var lock = new FlxSprite(shiftX + ((word.length) * 50) + (shiftX / 4) + ((isNumber) ? 20 : 0), shiftY);
+		var lock = new FlxSprite(shiftX + ((word.length) * 50) + (shiftX * 0.25) + ((isNumber) ? 20 : 0), shiftY);
 		lock.frames = Paths.getSparrowAtlas('menus/base/storymenu/campaign_menu_UI_assets');
 		lock.animation.addByPrefix('lock', 'lock', 24, false);
 		lock.animation.play('lock');
 		add(lock);
 		#else
 		leftSelector = createSelector(shiftX, shiftY, word, 'left');
-		rightSelector = createSelector(shiftX + ((word.length) * 50) + (shiftX / 4) + ((isNumber) ? 20 : 0), shiftY, word, 'right');
+		rightSelector = createSelector(shiftX + ((word.length) * 50) + (shiftX * 0.25) + ((isNumber) ? 20 : 0), shiftY, word, 'right');
 
 		add(leftSelector);
 		add(rightSelector);
 		#end
 
 		chosenOptionString = Std.string(Init.trueSettings.get(word));
-		trace(isNumber);
+		//trace(isNumber);
 
 		var inc:Int = isNumber ? 200 : 0;
-		optionChosen = new Alphabet(FlxG.width / 2 + inc, shiftY + 20, chosenOptionString, !isNumber, false);
+		optionChosen = new Alphabet(FlxG.width * 0.5 + inc, shiftY + 20, chosenOptionString, !isNumber, false);
 		add(optionChosen);
 	}
 

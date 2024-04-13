@@ -1,13 +1,7 @@
-<p align="center">
-  <img src="https://media.discordapp.net/attachments/916918345255751690/930068118938730526/legacy.png" width="750"/></a>
-  <h1 align="center">Forever Engine Legacy</h1>
-  <h2 align="center">An open-source, quality of life and performance driven Friday Night Funkin' mod engine!</h2>
-</p>
+<h1 align="center">Forever Engine Legacy</h1>
+<h2 align="center">An open-source, quality of life and performance driven Friday Night Funkin' mod engine!</h2>
 
 ----------------------------------------------
-Forever Engine is currently in *legacy* state as it is being rewritten. 
-
-The legacy version of Forever Engine lacks accessibility and cohesion, something we are currently working to fix with the more newer and updated rewrite.
 
 **FOREVER ENGINE LEGACY IS ONLY MEANT TO BE USED ON DESKTOP! I AM NOT RESPONSIBLE FOR CRASHES/PROBLEMS WITH HTML5, NOR AM I RESPONSIBLE FOR MAINTAINING HTML5.**
 
@@ -27,14 +21,14 @@ AND MORE!
 
 ----------------------------------------------
 # Credits:
-* [CrowPlexus](https://twitter.com/CrowPlexus) (me!):
+* [crowplexus](https://twitter.com/crowplexus) (me!):
     * maintainer of the engine as of recent events.
-    * she likes how the note splash looks.
+    * she likes how the note splash looks;
 * Yoshubs:
     * made the engine,
     * happens to be very fucking stupid for accidentally pushing the martian mixtape source code into legacy's base github page
     * Nobody, and I repeat, NOBODY, support Shubs' doings on the internet
-      
+
       If instead of dealing with her problems and DOING BETTER, she decided to run away, that's her decision
       
       I *don't* support pedophiles.
@@ -50,7 +44,7 @@ AND MORE!
     * EXTERNAL SHADER SUPPORT for modcharts when they're a thing,
     * so many other things (like the crash logger);
 
-I urge you to check out his project, [Izzy Engine](https://github.com/gedehari/IzzyEngine), which he let me borrow a lot of aspects from which I still owe him for lmao. AWESOME dude I can't stress this enough.
+    I urge you to check out his project, [Izzy Engine](https://github.com/gedehari/IzzyEngine), which he let me borrow a lot of aspects from which I still owe him for lmao. AWESOME dude I can't stress this enough.
 
 * [ImCodist](https://github.com/ImCodist):
     * helped with a couple of pull requests and issue fixes,
@@ -74,4 +68,3 @@ I urge you to check out his project, [Izzy Engine](https://github.com/gedehari/I
 ## To see changes made to the engine, check out the changelog [here](/CHANGELOG.md).
 ----------------------------------------------
 <h1 align="center">Thank you for checking out Forever Engine!</h1>
-<h2 align="center">Got any questions? DM me at @CrowPlexus on Discord!</h2>

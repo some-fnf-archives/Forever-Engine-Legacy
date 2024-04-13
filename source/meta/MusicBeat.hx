@@ -3,12 +3,13 @@ package meta;
 import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
 import meta.*;
 import meta.data.*;
 import meta.data.Conductor.BPMChangeEvent;
-import meta.data.dependency.FNFUIState;
+import meta.data.dependency.FNFTransition;
 
 /* 
 	Music beat state happens to be the first thing on my list of things to add, it just so happens to be the backbone of
@@ -17,17 +18,21 @@ import meta.data.dependency.FNFUIState;
 	I'm not going to change any of this because I don't truly understand how songplaying works, 
 	I mostly just wanted to rewrite the actual gameplay side of things.
  */
-class MusicBeatState extends FNFUIState
+class MusicBeatState extends FlxUIState
 {
-	// original variables extended from original game source
-	private var lastBeat:Float = 0;
-	private var lastStep:Float = 0;
+	/**
+	 * Array of notes showing when each measure/bar STARTS in STEPS
+	 * Usually rounded up??
+	 */
+	public var curBar:Int = 0;
 
-	public var curStep:Int = 0;
 	public var curBeat:Int = 0;
+	public var curStep:Int = 0;
+
+	function updateBar() curBar = Math.floor(curBeat * 0.25);
+	function updateBeat() curBeat = Math.floor(curStep * 0.25);
 
 	private var controls(get, never):Controls;
-
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
@@ -39,8 +44,14 @@ class MusicBeatState extends FNFUIState
 		if ((!Std.isOfType(this, meta.state.PlayState)) && (!Std.isOfType(this, meta.state.charting.OriginalChartingState)))
 			Paths.clearUnusedMemory();
 
+		// state stuffs
+		if (!FlxTransitionableState.skipNextTransOut)
+			openSubState(new FNFTransition(0.5, true));
+
+		/*
 		if (transIn != null)
 			trace('reg ' + transIn.region);
+		*/
 
 		super.create();
 
@@ -54,7 +65,6 @@ class MusicBeatState extends FNFUIState
 	override function update(elapsed:Float)
 	{
 		updateContents();
-
 		super.update(elapsed);
 	}
 
@@ -62,6 +72,7 @@ class MusicBeatState extends FNFUIState
 	{
 		updateCurStep();
 		updateBeat();
+		updateBar();
 
 		// delta time bullshit
 		var trueStep:Int = curStep;
@@ -79,7 +90,7 @@ class MusicBeatState extends FNFUIState
 		}
 		if (skippedSteps.length > 0)
 		{
-			trace('skipped steps $skippedSteps');
+			//trace('skipped steps $skippedSteps');
 			skippedSteps = [];
 		}
 		curStep = trueStep;
@@ -94,11 +105,6 @@ class MusicBeatState extends FNFUIState
 	var storedSteps:Array<Int> = [];
 	var skippedSteps:Array<Int> = [];
 
-	public function updateBeat():Void
-	{
-		curBeat = Math.floor(curStep / 4);
-	}
-
 	public function updateCurStep():Void
 	{
 		var lastChange:BPMChangeEvent = {
@@ -106,11 +112,9 @@ class MusicBeatState extends FNFUIState
 			songTime: 0,
 			bpm: 0
 		}
-
 		for (i in 0...Conductor.bpmChangeMap.length)
 			if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime)
 				lastChange = Conductor.bpmChangeMap[i];
-
 		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
@@ -120,7 +124,6 @@ class MusicBeatState extends FNFUIState
 			beatHit();
 
 		// trace('step $curStep');
-
 		if (!storedSteps.contains(curStep))
 			storedSteps.push(curStep);
 		else
@@ -140,31 +143,66 @@ class MusicBeatSubState extends FlxSubState
 		super();
 	}
 
-	private var lastBeat:Float = 0;
-	private var lastStep:Float = 0;
+	/**
+	 * Array of notes showing when each measure/bar STARTS in STEPS
+	 * Usually rounded up??
+	 */
+	public var curBar: Int = 0;
+	public var curBeat:Int = 0;
+	public var curStep:Int = 0;
 
-	private var curStep:Int = 0;
-	private var curBeat:Int = 0;
+	function updateBar() curBar = Math.floor(curBeat * 0.25);
+	function updateBeat() curBeat = Math.floor(curStep * 0.25);
+
 	private var controls(get, never):Controls;
-
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
+	// class 'step' event
 	override function update(elapsed:Float)
 	{
-		// everyStep();
-		var oldStep:Int = curStep;
-
-		updateCurStep();
-		curBeat = Math.floor(curStep / 4);
-
-		if (oldStep != curStep && curStep > 0)
-			stepHit();
-
+		updateContents();
 		super.update(elapsed);
 	}
 
-	private function updateCurStep():Void
+	public function updateContents()
+	{
+		updateCurStep();
+		updateBeat();
+		updateBar();
+
+		// delta time bullshit
+		var trueStep:Int = curStep;
+		for (i in storedSteps)
+			if (i < oldStep)
+				storedSteps.remove(i);
+		for (i in oldStep...trueStep)
+		{
+			if (!storedSteps.contains(i) && i > 0)
+			{
+				curStep = i;
+				stepHit();
+				skippedSteps.push(i);
+			}
+		}
+		if (skippedSteps.length > 0)
+		{
+			//trace('skipped steps $skippedSteps');
+			skippedSteps = [];
+		}
+		curStep = trueStep;
+
+		//
+		if (oldStep != curStep && curStep > 0 && !storedSteps.contains(curStep))
+			stepHit();
+		oldStep = curStep;
+	}
+
+	var oldStep:Int = 0;
+	var storedSteps:Array<Int> = [];
+	var skippedSteps:Array<Int> = [];
+
+	public function updateCurStep():Void
 	{
 		var lastChange:BPMChangeEvent = {
 			stepTime: 0,
@@ -172,11 +210,8 @@ class MusicBeatSubState extends FlxSubState
 			bpm: 0
 		}
 		for (i in 0...Conductor.bpmChangeMap.length)
-		{
-			if (Conductor.songPosition > Conductor.bpmChangeMap[i].songTime)
+			if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime)
 				lastChange = Conductor.bpmChangeMap[i];
-		}
-
 		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 

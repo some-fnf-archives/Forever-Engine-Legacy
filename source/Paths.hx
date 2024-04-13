@@ -61,6 +61,8 @@ class Paths
 				var obj = currentTrackedAssets.get(key);
 				if (obj != null)
 				{
+					obj.persist = false;
+					obj.destroyOnNoUse = true;
 					var isTexture:Bool = currentTrackedTextures.exists(key);
 					if (isTexture)
 					{
@@ -75,14 +77,16 @@ class Paths
 						openfl.Assets.cache.removeBitmapData(key);
 						FlxG.bitmap._cache.remove(key);
 					}
+					#if GARBAGE_COLLECTOR_INFO
 					trace('removed $key, ' + (isTexture ? 'is a texture' : 'is not a texture'));
+					#end
 					obj.destroy();
 					currentTrackedAssets.remove(key);
 					counter++;
 				}
 			}
 		}
-		trace('removed $counter assets');
+		#if GARBAGE_COLLECTOR_INFO trace('removed $counter assets'); #end
 		// run the garbage collector for good measure lmfao
 		System.gc();
 	}
@@ -96,7 +100,7 @@ class Paths
 		@:privateAccess
 		for (key in FlxG.bitmap._cache.keys())
 		{
-			var obj = FlxG.bitmap._cache.get(key);
+			final obj = FlxG.bitmap._cache.get(key);
 			if (obj != null && !currentTrackedAssets.exists(key))
 			{
 				openfl.Assets.cache.removeBitmapData(key);
@@ -135,20 +139,18 @@ class Paths
 					bitmap.dispose();
 					bitmap.disposeImage();
 					bitmap = null;
-					trace('new texture $key, bitmap is $bitmap');
 					newGraphic = FlxGraphic.fromBitmapData(BitmapData.fromTexture(texture), false, key, false);
 				}
 				else
-				{
 					newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
-					trace('new bitmap $key, not textured');
-				}
+				newGraphic.persist = true;
+				newGraphic.destroyOnNoUse = false;
 				currentTrackedAssets.set(key, newGraphic);
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedAssets.get(key);
 		}
-		trace('oh no ' + key + ' is returning null NOOOO');
+		trace('tried to load graphic "$key" which is returning null');
 		return null;
 	}
 
@@ -215,6 +217,7 @@ class Paths
 		for now I'm more focused on getting this to run than anything and I'll clean out the code later as I do want to organise
 		everything later 
 	 */
+	//
 	static public function getLibraryPath(file:String, library = "preload")
 	{
 		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);

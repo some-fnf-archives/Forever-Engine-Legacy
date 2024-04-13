@@ -157,7 +157,7 @@ class Strumline extends FlxTypedGroup<FlxBasic>
 			var staticArrow:UIStaticArrow = ForeverAssets.generateUIArrows(-25 + x, 25 + (downscroll ? FlxG.height - 200 : 0), i, PlayState.assetModifier);
 			staticArrow.ID = i;
 
-			staticArrow.x -= ((keyAmount / 2) * Note.swagWidth);
+			staticArrow.x -= ((keyAmount * 0.5) * Note.swagWidth);
 			staticArrow.x += (Note.swagWidth * i);
 			receptors.add(staticArrow);
 

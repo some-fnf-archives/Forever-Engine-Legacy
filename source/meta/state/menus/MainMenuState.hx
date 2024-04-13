@@ -44,7 +44,7 @@ class MainMenuState extends MusicBeatState
 		// make sure the music is playing
 		ForeverTools.resetMenuMusic();
 
-		#if DISCORD_RPC
+		#if discord_rpc
 		Discord.changePresence('MENU SCREEN', 'Main Menu');
 		#end
 
@@ -77,7 +77,7 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		// add the menu items
+		// add a group for the menu items
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
@@ -113,7 +113,7 @@ class MainMenuState extends MusicBeatState
 			menuItem.updateHitbox();
 
 			/*
-				FlxTween.tween(menuItem, {alpha: 1, x: ((FlxG.width / 2) - (menuItem.width / 2))}, 0.35, {
+				FlxTween.tween(menuItem, {alpha: 1, x: ((FlxG.width * 0.5) - (menuItem.width * 0.5))}, 0.35, {
 					ease: FlxEase.smootherStepInOut,
 					onComplete: function(tween:FlxTween)
 					{
@@ -187,7 +187,7 @@ class MainMenuState extends MusicBeatState
 
 							if (counterControl >= 1)
 							{
-								curSelected += (curDir * (counterControl / 24));
+								curSelected += (curDir * (counterControl * 0.54));
 								if (curSelected % 1 == 0)
 									FlxG.sound.play(Paths.sound('scrollMenu'));
 							}
@@ -207,7 +207,12 @@ class MainMenuState extends MusicBeatState
 			counterControl = 0;
 		}
 
-		if ((controls.ACCEPT) && (!selectedSomethin))
+		if (controls.BACK && !selectedSomethin) {
+			Main.switchState(new TitleState());
+			selectedSomethin = true;
+		}
+
+		if (controls.ACCEPT && !selectedSomethin)
 		{
 			//
 			selectedSomethin = true;
@@ -236,13 +241,11 @@ class MainMenuState extends MusicBeatState
 						switch (daChoice)
 						{
 							case 'story mode':
-								Main.switchState(this, new StoryMenuState());
+								Main.switchState(new StoryMenuState());
 							case 'freeplay':
-								Main.switchState(this, new FreeplayState());
+								Main.switchState(new FreeplayState());
 							case 'options':
-								transIn = FlxTransitionableState.defaultTransIn;
-								transOut = FlxTransitionableState.defaultTransOut;
-								Main.switchState(this, new OptionsMenuState());
+								Main.switchState(new OptionsMenuState());
 						}
 					});
 				}

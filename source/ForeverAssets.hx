@@ -252,7 +252,7 @@ class ForeverAssets
 			if (prevNote.isSustainNote)
 				newNote.noteVisualOffset = prevNote.noteVisualOffset;
 			else // calculate a new visual offset based on that note's width and newnote's width
-				newNote.noteVisualOffset = ((prevNote.width / 2) - (newNote.width / 2));
+				newNote.noteVisualOffset = ((prevNote.width * 0.5) - (newNote.width * 0.5));
 		}
 
 		return newNote;

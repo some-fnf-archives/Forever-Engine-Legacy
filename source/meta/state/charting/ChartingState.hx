@@ -114,7 +114,7 @@ class ChartingState extends MusicBeatState
 		strumLineCam.screenCenter(X);
 
 		// epic strum line
-		strumLine = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width / 2), 2);
+		strumLine = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 0.5), 2);
 		add(strumLine);
 		strumLine.screenCenter(X);
 
@@ -130,7 +130,7 @@ class ChartingState extends MusicBeatState
 			if (typeReal > 3)
 				typeReal -= 4;
 
-			var newArrow:UIStaticArrow = ForeverAssets.generateUIArrows(((FlxG.width / 2) - ((keysTotal / 2) * gridSize)) + ((i - 1) * gridSize), -76,
+			var newArrow:UIStaticArrow = ForeverAssets.generateUIArrows(((FlxG.width * 0.5) - ((keysTotal * 0.5) * gridSize)) + ((i - 1) * gridSize), -76,
 				typeReal, 'chart editor');
 
 			newArrow.ID = i;
@@ -204,8 +204,8 @@ class ChartingState extends MusicBeatState
 		strumLineCam.y = strumLine.y + (FlxG.height / 3);
 		arrowGroup.y = strumLine.y;
 
-		coolGradient.y = strumLineCam.y - (FlxG.height / 2);
-		coolGrid.y = strumLineCam.y - (FlxG.height / 2);
+		coolGradient.y = strumLineCam.y - (FlxG.height * 0.5);
+		coolGrid.y = strumLineCam.y - (FlxG.height * 0.5);
 
 		super.update(elapsed);
 
@@ -280,7 +280,7 @@ class ChartingState extends MusicBeatState
 
 			PlayState.SONG = _song;
 			ForeverTools.killMusic([songMusic, vocals]);
-			Main.switchState(this, new PlayState());
+			Main.switchState(new PlayState());
 		}
 	}
 
@@ -289,8 +289,8 @@ class ChartingState extends MusicBeatState
 		// call all rendered notes lol
 		curRenderedNotes.forEach(function(epicNote:Note)
 		{
-			if ((epicNote.y > (strumLineCam.y - (FlxG.height / 2) - epicNote.height))
-				|| (epicNote.y < (strumLineCam.y + (FlxG.height / 2))))
+			if ((epicNote.y > (strumLineCam.y - (FlxG.height * 0.5) - epicNote.height))
+				|| (epicNote.y < (strumLineCam.y + (FlxG.height * 0.5))))
 			{
 				epicNote.alive = true;
 				epicNote.visible = true;
@@ -349,16 +349,16 @@ class ChartingState extends MusicBeatState
 		// this will be used to regenerate a box that shows what section the camera is focused on
 
 		// oh and section information lol
-		var sectionLine:FlxSprite = new FlxSprite(FlxG.width / 2 - (gridSize * (keysTotal / 2)) - (extraSize / 2), placement);
+		var sectionLine:FlxSprite = new FlxSprite(FlxG.width * 0.5 - (gridSize * (keysTotal * 0.5)) - (extraSize * 0.5), placement);
 		sectionLine.frames = sectionLineGraphic.imageFrame;
 		sectionLine.alpha = (88 / 255);
 
 		// section camera
 		var sectionExtend:Float = 0;
 		if (_song.notes[section].mustHitSection)
-			sectionExtend = (gridSize * (keysTotal / 2));
+			sectionExtend = (gridSize * (keysTotal * 0.5));
 
-		var sectionCamera:FlxSprite = new FlxSprite(FlxG.width / 2 - (gridSize * (keysTotal / 2)) + (sectionExtend), placement);
+		var sectionCamera:FlxSprite = new FlxSprite(FlxG.width * 0.5 - (gridSize * (keysTotal * 0.5)) + (sectionExtend), placement);
 		sectionCamera.frames = sectionCameraGraphic.imageFrame;
 		sectionCamera.alpha = (88 / 255);
 		curRenderedSections.add(sectionCamera);
@@ -378,10 +378,10 @@ class ChartingState extends MusicBeatState
 			curRenderedSections.add(sectionNumber);
 		}
 
-		for (i in 1...Std.int(_song.notes[section].lengthInSteps / 4))
+		for (i in 1...Std.int(_song.notes[section].lengthInSteps * 0.25))
 		{
 			// create a smaller section stepper
-			var sectionStep:FlxSprite = new FlxSprite(FlxG.width / 2 - (gridSize * (keysTotal / 2)) - (extraSize / 2), placement + (i * (gridSize * 4)));
+			var sectionStep:FlxSprite = new FlxSprite(FlxG.width * 0.5 - (gridSize * (keysTotal * 0.5)) - (extraSize * 0.5), placement + (i * (gridSize * 4)));
 			sectionStep.frames = sectionStepGraphic.imageFrame;
 			sectionStep.alpha = sectionLine.alpha;
 			curRenderedSections.add(sectionStep);
@@ -423,7 +423,7 @@ class ChartingState extends MusicBeatState
 	{
 		// pregenerate assets so it doesnt destroy your ram later
 		sectionLineGraphic = FlxG.bitmap.create(gridSize * keysTotal + extraSize, 2, FlxColor.WHITE);
-		sectionCameraGraphic = FlxG.bitmap.create(Std.int(gridSize * (keysTotal / 2)), 16 * gridSize, FlxColor.fromRGB(43, 116, 219));
+		sectionCameraGraphic = FlxG.bitmap.create(Std.int(gridSize * (keysTotal * 0.5)), 16 * gridSize, FlxColor.fromRGB(43, 116, 219));
 		sectionStepGraphic = FlxG.bitmap.create(gridSize * keysTotal + extraSize, 1, FlxColor.WHITE);
 	}
 
@@ -471,7 +471,7 @@ class ChartingState extends MusicBeatState
 		note.updateHitbox();
 
 		note.screenCenter(X);
-		note.x -= ((gridSize * (keysTotal / 2)) - (gridSize / 2));
+		note.x -= ((gridSize * (keysTotal * 0.5)) - (gridSize * 0.5));
 		note.x += Math.floor(adjustSide(daNoteInfo, _song.notes[noteSection].mustHitSection) * gridSize);
 
 		note.y = Math.floor(getYfromStrum(daStrumTime));
@@ -490,16 +490,16 @@ class ChartingState extends MusicBeatState
 
 				var sustainVis:Note = new Note(daStrumTime + (Conductor.stepCrochet * daSus) + Conductor.stepCrochet, daNoteInfo % 4, daNoteAlt, prevNote, true);
 				sustainVis.setGraphicSize(constSize,
-					Math.floor(FlxMath.remapToRange((daSus / 2) - constSize, 0, Conductor.stepCrochet * verticalSize, 0, gridSize * verticalSize)));
+					Math.floor(FlxMath.remapToRange((daSus * 0.5) - constSize, 0, Conductor.stepCrochet * verticalSize, 0, gridSize * verticalSize)));
 				sustainVis.updateHitbox();
 				sustainVis.x = note.x + constSize;
-				sustainVis.y = note.y + (gridSize / 2);
+				sustainVis.y = note.y + (gridSize * 0.5);
 
 				var sustainEnd:Note = new Note(daStrumTime + (Conductor.stepCrochet * daSus) + Conductor.stepCrochet, daNoteInfo % 4, daNoteAlt, sustainVis, true);
 				sustainEnd.setGraphicSize(constSize, constSize);
 				sustainEnd.updateHitbox();
 				sustainEnd.x = sustainVis.x;
-				sustainEnd.y = note.y + (sustainVis.height) + (gridSize / 2);
+				sustainEnd.y = note.y + (sustainVis.height) + (gridSize * 0.5);
 
 				// loll for later
 				sustainVis.rawNoteData = daNoteInfo;

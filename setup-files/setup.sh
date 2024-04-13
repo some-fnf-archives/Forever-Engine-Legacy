@@ -11,5 +11,4 @@ haxelib run lime setup
 haxelib install flixel-tools
 haxelib run flixel-tools setup
 haxelib install hxcpp-debug-server
-haxelib git polymod https://github.com/larsiusprime/polymod.git
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc

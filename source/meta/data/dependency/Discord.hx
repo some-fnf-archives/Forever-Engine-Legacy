@@ -1,6 +1,6 @@
 package meta.data.dependency;
 
-#if DISCORD_RPC
+#if discord_rpc
 import discord_rpc.DiscordRpc;
 #end
 import lime.app.Application;
@@ -11,7 +11,7 @@ import lime.app.Application;
 **/
 class Discord
 {
-	#if DISCORD_RPC
+	#if discord_rpc
 	// set up the rich presence initially
 	public static function initializeRPC()
 	{
@@ -63,8 +63,8 @@ class Discord
 			largeImageText: "Forever Engine Legacy",
 			smallImageKey: smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
-			startTimestamp: Std.int(startTimestamp / 1000),
-			endTimestamp: Std.int(endTimestamp / 1000)
+			startTimestamp: Std.int(startTimestamp * 0.001),
+			endTimestamp: Std.int(endTimestamp * 0.001)
 		});
 
 		// trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');

@@ -1,11 +1,10 @@
 package;
 
-import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxGame;
-import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxColor;
 import haxe.CallStack.StackItem;
 import haxe.CallStack;
@@ -15,7 +14,6 @@ import meta.*;
 import meta.data.PlayerSettings;
 import meta.data.dependency.Discord;
 import meta.data.dependency.FNFTransition;
-import meta.data.dependency.FNFUIState;
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.FPS;
@@ -35,12 +33,12 @@ class Main extends Sprite
 	public static var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
 	public static var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
 
-	public static var mainClassState:Class<FlxState> = Init; // Determine the main class state of the game
-	public static var framerate:Int = 120; // How many frames per second the game should run at.
+	public static var initialState:Class<FlxState> = meta.state.TitleState; // Determine the state the game should begin at
+	public static var framerate:Int = #if (html5 || neko) 60 #else 120 #end; // How many frames per second the game should run at.
 
-	public static final gameVersion:String = '0.3.2';
+	public static final gameVersion:String = '0.3.2h';
 
-	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
+	// var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var infoCounter:Overlay; // initialize the heads up display that shows information before creating it.
 
@@ -54,38 +52,43 @@ class Main extends Sprite
 		[ [songs to use], [characters in songs], [color of week], name of week ]
 	**/
 	public static var gameWeeks:Array<Dynamic> = [
-		[['Tutorial'], ['gf'], [FlxColor.fromRGB(129, 100, 223)], 'Funky Beginnings'],
-		[
+		[ // Week 0 / Tutorial
+			['Tutorial'],
+			['gf'],
+			[FlxColor.fromRGB(129, 100, 223)],
+			'Funky Beginnings'
+		],
+		[ // Week 1
 			['Bopeebo', 'Fresh', 'Dadbattle'],
 			['dad', 'dad', 'dad'],
 			[FlxColor.fromRGB(129, 100, 223)],
 			'vs. DADDY DEAREST'
 		],
-		[
+		[ // Week 2
 			['Spookeez', 'South', 'Monster'],
 			['spooky', 'spooky', 'monster'],
 			[FlxColor.fromRGB(30, 45, 60)],
 			'Spooky Month'
 		],
-		[
+		[ // Week 3
 			['Pico', 'Philly-Nice', 'Blammed'],
 			['pico'],
 			[FlxColor.fromRGB(111, 19, 60)],
 			'vs. Pico'
 		],
-		[
+		[ // Week 4
 			['Satin-Panties', 'High', 'Milf'],
 			['mom'],
 			[FlxColor.fromRGB(203, 113, 170)],
 			'MOMMY MUST MURDER'
 		],
-		[
+		[ // Week 5
 			['Cocoa', 'Eggnog', 'Winter-Horrorland'],
 			['parents-christmas', 'parents-christmas', 'monster-christmas'],
 			[FlxColor.fromRGB(141, 165, 206)],
 			'RED SNOW'
 		],
-		[
+		[ // Week 6
 			['Senpai', 'Roses', 'Thorns'],
 			['senpai', 'senpai', 'spirit'],
 			[FlxColor.fromRGB(206, 106, 169)],
@@ -115,14 +118,11 @@ class Main extends Sprite
 
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
-		#if (html5 || neko)
-		framerate = 60;
-		#end
-
 		// simply said, a state is like the 'surface' area of the window where everything is drawn.
 		// if you've used gamemaker you'll probably understand the term surface better
 		// this defines the surface bounds
 
+		/* // no longer serves purpose due to flixel 5 changes
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
@@ -136,19 +136,26 @@ class Main extends Sprite
 			// this just kind of sets up the camera zoom in accordance to the surface width and camera zoom.
 			// if set to negative one, it is done so automatically, which is the default.
 		}
-
-		FlxTransitionableState.skipNextTransIn = true;
+		*/
 
 		// here we set up the base game
 		var gameCreate:FlxGame;
-		gameCreate = new FlxGame(gameWidth, gameHeight, mainClassState, #if (flixel < "5.0.0") zoom, #end framerate, framerate, skipSplash);
+		gameCreate = new FlxGame(gameWidth, gameHeight, Init, #if (flixel < "5.0.0") zoom, #end framerate, framerate, skipSplash);
 		addChild(gameCreate); // and create it afterwards
 
 		// default game FPS settings, I'll probably comment over them later.
 		// addChild(new FPS(10, 3, 0xFFFFFF));
 
+		FlxG.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, (e) ->
+		{
+			// Prevent Flixel from listening to key inputs when switching fullscreen mode
+			// thanks nebulazorua @crowplexus
+			if (e.keyCode == FlxKey.ENTER && e.altKey)
+				e.stopImmediatePropagation();
+		}, false, 100);
+
 		// begin the discord rich presence
-		#if DISCORD_RPC
+		#if discord_rpc
 		Discord.initializeRPC();
 		Discord.changePresence('');
 		#end
@@ -168,24 +175,21 @@ class Main extends Sprite
 	/*  This is used to switch "rooms," to put it basically. Imagine you are in the main menu, and press the freeplay button.
 		That would change the game's main class to freeplay, as it is the active class at the moment.
 	 */
-	public static var lastState:FlxState;
-
-	public static function switchState(curState:FlxState, target:FlxState)
+	public static function switchState(target:FlxState)
 	{
 		// Custom made Trans in
-		mainClassState = Type.getClass(target);
 		if (!FlxTransitionableState.skipNextTransIn)
 		{
-			curState.openSubState(new FNFTransition(0.35, false));
+			FlxG.state.openSubState(new FNFTransition(0.35, false));
 			FNFTransition.finishCallback = function()
 			{
 				FlxG.switchState(target);
 			};
-			return trace('changed state');
+			//trace('changed state');
 		}
-		FlxTransitionableState.skipNextTransIn = false;
-		// load the state
-		FlxG.switchState(target);
+		else
+			// load the state
+			FlxG.switchState(target);
 	}
 
 	public static function updateFramerate(newFramerate:Int)
@@ -213,7 +217,7 @@ class Main extends Sprite
 		dateNow = StringTools.replace(dateNow, " ", "_");
 		dateNow = StringTools.replace(dateNow, ":", "'");
 
-		path = "crash/" + "FE_" + dateNow + ".txt";
+		path = 'crash/FE_$dateNow.txt';
 
 		for (stackItem in callStack)
 		{
@@ -226,7 +230,8 @@ class Main extends Sprite
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/CrowPlexus/Forever-Engine-Legacy";
+		errMsg += "\nUncaught Error: " + e.error;
+		//errMsg += "\nPlease report this error to the GitHub page: https://github.com/CrowPlexus-FNF/Forever-Engine-Legacy";
 
 		if (!FileSystem.exists("crash/"))
 			FileSystem.createDirectory("crash/");
@@ -234,25 +239,16 @@ class Main extends Sprite
 		File.saveContent(path, errMsg + "\n");
 
 		Sys.println(errMsg);
-		Sys.println("Crash dump saved in " + Path.normalize(path));
-
-		var crashDialoguePath:String = "FE-CrashDialog";
+		Sys.println('Crash dump saved in ${Path.normalize(path)}');
+		Sys.println("Making a simple alert...");
 
 		#if windows
-		crashDialoguePath += ".exe";
-		#end
-
+		var crashDialoguePath:String = "FE-CrashDialog.exe";
 		if (FileSystem.exists(crashDialoguePath))
-		{
-			Sys.println("Found crash dialog: " + crashDialoguePath);
 			new Process(crashDialoguePath, [path]);
-		}
 		else
-		{
-			Sys.println("No crash dialog found! Making a simple alert instead...");
-			Application.current.window.alert(errMsg, "Error!");
-		}
-
+		#end
+		Application.current.window.alert(errMsg, "Error!");
 		Sys.exit(1);
 	}
 }

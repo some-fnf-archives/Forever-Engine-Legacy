@@ -34,7 +34,7 @@ class ChartLoader
 
 				for (section in noteData)
 				{
-					var coolSection:Int = Std.int(section.lengthInSteps / 4);
+					var coolSection:Int = Std.int(section.lengthInSteps * 0.25);
 
 					for (songNotes in section.sectionNotes)
 					{
@@ -96,7 +96,7 @@ class ChartLoader
 							/*
 								This is handled in engine anyways, not necessary!
 								if (sustainNote.mustPress)
-									sustainNote.x += FlxG.width / 2;
+									sustainNote.x += FlxG.width * 0.5;
 							 */
 						}
 						// oh and set the note's must hit section

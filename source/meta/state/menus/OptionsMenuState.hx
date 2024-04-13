@@ -45,8 +45,8 @@ class OptionsMenuState extends MusicBeatState
 
 		// NOTE : Make sure to check Init.hx if you are trying to add options.
 
-		#if DISCORD_RPC
-		Discord.changePresence('OPTIONS MENU', 'Main Menu');
+		#if discord_rpc
+		Discord.changePresence('MENU SCREEN', 'Options Menu');
 		#end
 
 		categoryMap = [
@@ -202,14 +202,14 @@ class OptionsMenuState extends MusicBeatState
 			activeSubgroup.members[i].alpha = 0.6;
 			if (currentAttachmentMap != null)
 				setAttachmentAlpha(currentAttachmentMap.get(activeSubgroup.members[i]), 0.6);
-			activeSubgroup.members[i].targetY = (i - curSelection) / 2;
+			activeSubgroup.members[i].targetY = (i - curSelection) * 0.5;
 			activeSubgroup.members[i].xTo = 200 + ((i - curSelection) * 25);
 
 			// check for null members and hardcode the dividers
 			if (categoryMap.get(curCategory)[0][i][1] == null)
 			{
 				activeSubgroup.members[i].alpha = 1;
-				activeSubgroup.members[i].xTo += Std.int((FlxG.width / 2) - ((activeSubgroup.members[i].text.length / 2) * 40)) - 200;
+				activeSubgroup.members[i].xTo += Std.int((FlxG.width * 0.5) - ((activeSubgroup.members[i].text.length * 0.5) * 40)) - 200;
 			}
 		}
 
@@ -305,7 +305,7 @@ class OptionsMenuState extends MusicBeatState
 			if (curCategory != 'main')
 				loadSubgroup('main');
 			else
-				Main.switchState(this, new MainMenuState());
+				Main.switchState(new MainMenuState());
 		}
 	}
 
@@ -360,7 +360,7 @@ class OptionsMenuState extends MusicBeatState
 			{
 				var thisOption:Alphabet = new Alphabet(0, 0, categoryMap.get(groupName)[0][i][0], true, false);
 				thisOption.screenCenter();
-				thisOption.y += (90 * (i - Math.floor(categoryMap.get(groupName)[0].length / 2)));
+				thisOption.y += (90 * (i - Math.floor(categoryMap.get(groupName)[0].length * 0.5)));
 				thisOption.targetY = i;
 				thisOption.disableX = true;
 				// hardcoded main so it doesnt have scroll
@@ -535,7 +535,7 @@ class OptionsMenuState extends MusicBeatState
 			lockedMovement = true;
 			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
 			{
-				Main.switchState(this, new MainMenuState());
+				Main.switchState(new MainMenuState());
 				lockedMovement = false;
 			});
 		}

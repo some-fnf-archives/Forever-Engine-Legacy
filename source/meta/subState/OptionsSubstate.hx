@@ -120,7 +120,7 @@ class OptionsSubstate extends MusicBeatSubState
 			// generate key options lol
 			var optionsText:Alphabet = new Alphabet(0, 0, arrayTemp[i].replace('_', ' '), true, false);
 			optionsText.screenCenter();
-			optionsText.y += (90 * (i - (arrayTemp.length / 2)));
+			optionsText.y += (90 * (i - (arrayTemp.length * 0.5)));
 			optionsText.targetY = i;
 			optionsText.disableX = true;
 			optionsText.isMenuItem = true;
@@ -151,7 +151,7 @@ class OptionsSubstate extends MusicBeatSubState
 
 				var secondaryText:Alphabet = new Alphabet(0, 0, keyString, false, false);
 				secondaryText.screenCenter();
-				secondaryText.y += (90 * (i - (arrayTemp.length / 2)));
+				secondaryText.y += (90 * (i - (arrayTemp.length * 0.5)));
 				secondaryText.targetY = i;
 				secondaryText.disableX = true;
 				secondaryText.xTo += ((j + 1) * 420);
@@ -196,7 +196,7 @@ class OptionsSubstate extends MusicBeatSubState
 		for (i in 0...keyOptions.length)
 		{
 			keyOptions.members[i].alpha = 0.6;
-			keyOptions.members[i].targetY = (i - curSelection) / 2;
+			keyOptions.members[i].targetY = (i - curSelection) * 0.5;
 		}
 		keyOptions.members[curSelection].alpha = 1;
 
@@ -204,7 +204,7 @@ class OptionsSubstate extends MusicBeatSubState
 		for (i in 0...otherKeys.length)
 		{
 			otherKeys.members[i].alpha = 0.6;
-			otherKeys.members[i].targetY = (((Math.floor(i / 2)) - curSelection) / 2) - 0.25;
+			otherKeys.members[i].targetY = (((Math.floor(i * 0.5)) - curSelection) * 0.5) - 0.25;
 		}
 		otherKeys.members[(curSelection * 2) + curHorizontalSelection].alpha = 1;
 		// */

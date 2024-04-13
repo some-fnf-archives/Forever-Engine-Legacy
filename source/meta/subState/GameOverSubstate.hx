@@ -51,7 +51,7 @@ class GameOverSubstate extends MusicBeatSubState
 		Conductor.changeBPM(100);
 
 		// FlxG.camera.followLerp = 1;
-		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
+		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width * 0.5, FlxG.height * 0.5));
 		FlxG.camera.scroll.set();
 		FlxG.camera.target = null;
 
@@ -72,10 +72,10 @@ class GameOverSubstate extends MusicBeatSubState
 
 			if (PlayState.isStoryMode)
 			{
-				Main.switchState(this, new StoryMenuState());
+				Main.switchState(new StoryMenuState());
 			}
 			else
-				Main.switchState(this, new FreeplayState());
+				Main.switchState(new FreeplayState());
 		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
@@ -109,7 +109,7 @@ class GameOverSubstate extends MusicBeatSubState
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 1, false, function()
 				{
-					Main.switchState(this, new PlayState());
+					Main.switchState(new PlayState());
 				});
 			});
 			//

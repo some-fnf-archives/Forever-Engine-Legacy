@@ -68,8 +68,8 @@ class CustomTitlescreen extends MusicBeatState
 		if (!initialized)
 		{
 			///*
-			#if DISCORD_RPC
-			Discord.changePresence('TITLE SCREEN', 'Main Menu');
+			#if discord_rpc
+			Discord.changePresence('TITLE SCREEN');
 			#end
 
 			var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
@@ -110,7 +110,7 @@ class CustomTitlescreen extends MusicBeatState
 
 		logoBl.updateHitbox();
 
-		logoBl.setGraphicSize(Std.int(logoBl.width / 2));
+		logoBl.setGraphicSize(Std.int(logoBl.width * 0.5));
 		logoBl.updateHitbox();
 
 		logoBl.screenCenter();
@@ -206,7 +206,7 @@ class CustomTitlescreen extends MusicBeatState
 				// Check if version is outdated
 
 				// var version:String = "v" + Application.current.meta.get('version');
-				Main.switchState(this, new MainMenuState());
+				Main.switchState(new MainMenuState());
 				// }
 			});
 		}

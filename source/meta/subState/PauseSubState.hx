@@ -37,7 +37,7 @@ class PauseSubState extends MusicBeatSubState
 		{
 			mutex.acquire();
 			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
-			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length * 0.5)));
 			FlxG.sound.list.add(pauseMusic);
 			pauseMusic.volume = 0;
 			mutex.release();
@@ -124,15 +124,15 @@ class PauseSubState extends MusicBeatSubState
 				case "Resume":
 					close();
 				case "Restart Song":
-					Main.switchState(this, new PlayState());
+					Main.switchState(new PlayState());
 				case "Exit to menu":
 					PlayState.resetMusic();
 					PlayState.deaths = 0;
 
 					if (PlayState.isStoryMode)
-						Main.switchState(this, new StoryMenuState());
+						Main.switchState(new StoryMenuState());
 					else
-						Main.switchState(this, new FreeplayState());
+						Main.switchState(new FreeplayState());
 			}
 		}
 

@@ -17,7 +17,7 @@ using StringTools;
 /** 
 	Enumerator for settingtypes
 
-	[08/19/2023 - by: CrowPlexus]
+	[08/19/2023 - by: crowplexus]
 	this was a normal enum beforehand, it was converted
 	to an abstract so HashLink could work
 **/
@@ -252,17 +252,9 @@ class Init extends FlxState
 		FlxG.fixedTimestep = false; // This ensures that the game is not tied to the FPS
 		FlxG.mouse.useSystemCursor = true; // Use system cursor because it's prettier
 		FlxG.mouse.visible = false; // Hide mouse on start
-		FlxGraphic.defaultPersist = true; // make sure we control all of the memory
+		//FlxGraphic.defaultPersist = true; // make sure we control all of the memory
 
-		gotoTitleScreen();
-	}
-
-	private function gotoTitleScreen()
-	{
-		if (trueSettings.get("Custom Titlescreen"))
-			Main.switchState(this, new CustomTitlescreen());
-		else
-			Main.switchState(this, new TitleState());
+		FlxG.switchState(Type.createInstance(Main.initialState, []));
 	}
 
 	public static function loadSettings():Void
